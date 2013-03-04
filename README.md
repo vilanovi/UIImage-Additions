@@ -10,7 +10,7 @@ Right now the category supports four types of operations:
 
 The folowing methods are used to generate a UIImage for a specific color, size and/or corner radius.
 
-  + (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size;
+  	+ (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size;
 	+ (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size cornerRadius:(CGFloat)cornerRadius;
 	+ (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size cornerInset:(UICornerInset)cornerInset;
 
