@@ -42,8 +42,8 @@ In order to avoid to generate multiple versions of the same image to use in diff
 	
 You can use the following tint styles:
 
-* Use `UIImageTintedStyleKeepingAlpha` to keep transaprent pixels (_alpha < 1.0_) and tint only those that are not translucid (_alpha == 1.0_).
-* Use `UIImageTintedStyleOverAlpha` to keep non transparent pixels (_alpha == 1.0_) and tint only those that are translucid (_alpha < 1.0_).
+* Use `UIImageTintedStyleKeepingAlpha` to keep transaprent pixels and tint only those that are not translucid.
+* Use `UIImageTintedStyleOverAlpha` to keep non transparent pixels and tint only those that are translucid.
 
 ### Notes
 
