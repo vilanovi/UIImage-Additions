@@ -1,7 +1,8 @@
 //
 //  UIImage+Additions.m
+//  Created by Joan Martin.
+//  Take a look to my repos at http://github.com/vilanovi
 //
-
 #import "UIImage+Additions.h"
 #import "NSString+MD5Hashing.h"
 
@@ -43,6 +44,9 @@ static NSCache *_imageCache = nil;
 
 + (UIImage*)resizableImageWithColor:(UIColor*)color cornerInset:(UICornerInset)cornerInset
 {
+    if (!color)
+        return nil;
+    
     NSArray *descriptors = @[color, @YES, [NSValue valueWithUICornerInset:cornerInset]];
     UIImage *image = [self _cachedImageWithDescriptors:descriptors];
     if (image)
@@ -65,7 +69,13 @@ static NSCache *_imageCache = nil;
 
 + (UIImage*)imageNamed:(NSString *)name tintColor:(UIColor*)color style:(UIImageTintedStyle)tintStyle
 {
+    if (!name)
+        return nil;
+
     UIImage *image = [UIImage imageNamed:name];
+    
+    if (!image)
+        return nil;
     
     NSArray *descriptors = @[name, color, @(tintStyle)];
     UIImage *tintedImage = [self _cachedImageWithDescriptors:descriptors];
@@ -81,6 +91,9 @@ static NSCache *_imageCache = nil;
 
 - (UIImage*)tintedImageWithColor:(UIColor*)color style:(UIImageTintedStyle)tintStyle
 {
+    if (!color)
+        return self;
+    
     CGFloat scale = self.scale;
     CGSize size = CGSizeMake(scale * self.size.width, scale * self.size.height);
     
@@ -115,6 +128,8 @@ static NSCache *_imageCache = nil;
     CGImageRef bitmapContext = CGBitmapContextCreateImage(context);
     
     UIImage *coloredImage = [UIImage imageWithCGImage:bitmapContext scale:scale orientation:UIImageOrientationUp];
+    
+    CGImageRelease(bitmapContext);
     
     UIGraphicsEndImageContext();
     
@@ -199,6 +214,26 @@ static NSCache *_imageCache = nil;
     return isValid;
 }
 
+- (UIImage *)imageAddingImage:(UIImage*)image offset:(CGPoint)offset
+{
+    CGSize size = self.size;
+    size.width *= self.scale;
+    size.height *= self.scale;
+    
+    UIGraphicsBeginImageContext(size);
+    
+    [self drawInRect:CGRectMake( 0, 0, size.width, size.height )];
+    [image drawInRect:CGRectMake(offset.x, offset.y, size.width, size.height)];
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGImageRef bitmapContext = CGBitmapContextCreateImage(context);
+    UIImage *destImage = [UIImage imageWithCGImage:bitmapContext scale:image.scale orientation:UIImageOrientationUp];
+    CGContextRelease(context);
+    CGImageRelease(bitmapContext);
+    
+    return destImage;
+}
+
 #pragma mark Private Methods
 
 + (NSCache*)_cache
@@ -227,45 +262,39 @@ static NSCache *_imageCache = nil;
     NSMutableString *string = [NSMutableString string];
     
     for (id object in descriptors)
-    {
+    {        
         if ([object isKindOfClass:[NSNumber class]])
         {
-            [string appendFormat:@"%d", [object integerValue]];
-        }
-        else if ([object isKindOfClass:[NSString class]])
-        {
-            [string appendString:object];
-        }
-        else if ([object isKindOfClass:[UIColor class]])
-        {
-            CGFloat red, green, blue, alpha;
-            [object getRed:&red green:&green blue:&blue alpha:&alpha];
-            [string appendFormat:@"[UIColor:{%d,%d,%d,%d}]", (int)(red*255), (int)(green*255), (int)(blue*255), (int)(alpha*255)];
+            [string appendFormat:@"%d-",[object integerValue]];
         }
         else if ([object isKindOfClass:[NSValue class]])
         {
             NSValue *value = object;
-
-            if (strcmp(@encode(UICornerInset), value.objCType))
-            {
-                UICornerInset cornerInset = [value UICornerInsetValue];
-                [string appendFormat:@"[UICornerInset:{%d,%d,%d,%d}]",(int)cornerInset.topLeft, (int)cornerInset.topRight, (int)cornerInset.bottomLeft, (int)cornerInset.bottomRight];
-            }
-            else if (strcmp(@encode(CGSize), value.objCType))
+                        
+            if (strcmp((const char *)@encode(CGSize), (const char *)value.objCType) == 0)
             {
                 CGSize size = [value CGSizeValue];
-                [string appendFormat:@"[CGSize:%@]",NSStringFromCGSize(size)];
+                [string appendFormat:@"%d-%d",(int)size.width, (int)size.height];
             }
-            else if (strcmp(@encode(CGRect), value.objCType))
-            {
-                CGRect rect = [value CGRectValue];
-                [string appendFormat:@"[CGRect:%@]",NSStringFromCGRect(rect)];
-            }
-            else if (strcmp(@encode(CGPoint), value.objCType))
+            else if (strcmp(@encode(CGPoint), value.objCType) == 0)
             {
                 CGPoint point = [value CGPointValue];
-                [string appendFormat:@"[CGPoint:%@]",NSStringFromCGPoint(point)];
+                [string appendFormat:@"%d-%d-",(int)point.x, (int)point.y];
             }
+            else if (strcmp(@encode(CGRect), value.objCType) == 0)
+            {
+                CGRect rect = [value CGRectValue];
+                [string appendFormat:@"%d-%d-%d-%d-",(int)rect.origin.x, (int)rect.origin.y, (int)rect.size.width, (int)rect.size.height];
+            }
+            else if (strcmp(@encode(UICornerInset), value.objCType) == 0)
+            {
+                UICornerInset cornerInset = [value UICornerInsetValue];
+                [string appendFormat:@"%d-%d-%d-%d-",(int)cornerInset.topLeft, (int)cornerInset.topRight, (int)cornerInset.bottomLeft, (int)cornerInset.bottomRight];
+            }
+        }
+        else
+        {
+            [string appendFormat:@"%d-",[object hash]];
         }
     }
     
