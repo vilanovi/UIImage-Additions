@@ -45,6 +45,14 @@ You can use the following tint styles:
 * Use `UIImageTintedStyleKeepingAlpha` to keep transaprent pixels and tint only those that are not translucid.
 * Use `UIImageTintedStyleOverAlpha` to keep non transparent pixels and tint only those that are translucid.
 
+###V. Superposing images
+
+You can easily create an image by superposing two images. Calling the method:
+
+	- (UIImage *)imageAddingImage:(UIImage*)image offset:(CGPoint)offset;
+
+The result is an image with the caller image as background and the given image as a top image. Also, you can specify an offset for the top image.
+
 ### Notes
 
 1. This category take care of scaling properties depending of the device resolution (retina or not) or the original image scale property.
