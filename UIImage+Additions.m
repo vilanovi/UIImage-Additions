@@ -217,13 +217,16 @@ static NSCache *_imageCache = nil;
 - (UIImage *)imageAddingImage:(UIImage*)image offset:(CGPoint)offset
 {
     CGSize size = self.size;
-    size.width *= self.scale;
-    size.height *= self.scale;
+    CGFloat scale = self.scale;
+    
+    size.width *= scale;
+    size.height *= scale;
     
     UIGraphicsBeginImageContext(size);
     
-    [self drawInRect:CGRectMake( 0, 0, size.width, size.height )];
-    [image drawInRect:CGRectMake(offset.x, offset.y, size.width, size.height)];
+    [self drawInRect:CGRectMake( 0, 0, size.width, size.height)];
+    
+    [image drawInRect:CGRectMake(scale * offset.x, scale * offset.y, image.size.width * scale, image.size.height * scale)];
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGImageRef bitmapContext = CGBitmapContextCreateImage(context);
