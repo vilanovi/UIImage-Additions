@@ -53,6 +53,16 @@ You can easily create an image by superposing two images. Calling the method:
 
 The result is an image with the caller image as background and the given image as a top image. Also, you can specify an offset for the top image.
 
+###VI. Generate Gradients
+You can create linear gradient images (with two colors or more) using the following methods:
+
+	+ (UIImage*)imageWithGradient:(NSArray*)colors size:(CGSize)size direction:(UIImageGradientDirection)direction;
+	+ (UIImage*)resizableImageWithGradient:(NSArray*)colors size:(CGSize)size direction:(UIImageGradientDirection)direction;
+
+The first method returns an image with the a gradient using the specified colors and direction of the given size.
+The secon method returns the smallest resizable image that can generate a gradient of the specified size.
+
+
 ### Notes
 
 1. This category take care of scaling properties depending of the device resolution (retina or not) or the original image scale property.
