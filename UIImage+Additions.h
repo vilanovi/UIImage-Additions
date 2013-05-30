@@ -39,10 +39,17 @@ UIKIT_STATIC_INLINE BOOL UICornerInsetEqualToCornerInset(UICornerInset cornerIns
 
 FOUNDATION_EXTERN NSString* NSStringFromUICornerInset(UICornerInset cornerInset);
 
-typedef enum {
-    UIImageTintedStyleKeepingAlpha,
-    UIImageTintedStyleOverAlpha
+typedef enum __UIImageTintedStyle
+{
+    UIImageTintedStyleKeepingAlpha      = 1,
+    UIImageTintedStyleOverAlpha         = 2
 } UIImageTintedStyle;
+
+typedef enum __UIImageGradientDirection
+{
+    UIImageGradientDirectionVertical    = 1,
+    UIImageGradientDirectionHorizontal  = 2,
+} UIImageGradientDirection;
 
 @interface UIImage (Additions)
 
@@ -78,6 +85,12 @@ typedef enum {
  * Drawing image on image
  */
 - (UIImage*)imageAddingImage:(UIImage*)image offset:(CGPoint)offset;
+
+/*
+ * Gradient image generation
+ */
++ (UIImage*)imageWithGradient:(NSArray*)colors size:(CGSize)size direction:(UIImageGradientDirection)direction;
++ (UIImage*)resizableImageWithGradient:(NSArray*)colors size:(CGSize)size direction:(UIImageGradientDirection)direction;
 
 @end
 
