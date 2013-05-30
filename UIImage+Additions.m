@@ -13,7 +13,16 @@ NSString* NSStringFromUICornerInset(UICornerInset cornerInset)
     return [NSString stringWithFormat:@"UICornerInset <topLeft:%f> <topRight:%f> <bottomLeft:%f> <bottomRight:%f>",cornerInset.topLeft, cornerInset.topRight, cornerInset.bottomLeft, cornerInset.bottomRight];
 }
 
-static NSCache *_imageCache = nil;
+static NSCache * _imageCache = nil;
+
+static NSString * kUIImageName = @"kUIImageName";
+static NSString * kUIImageResizableImage = @"kUIImageResizableImage";
+static NSString * kUIImageColors = @"kUIImageColors";
+static NSString * kUIImageTintColor = @"kUIImageTintColor";
+static NSString * kUIImageTintStyle = @"kUIImageTintStyle";
+static NSString * kUIImageCornerInset = @"kUIImageCornerInset";
+static NSString * kUIImageGradientDirection = @"kUIImageGradientDirection";
+static NSString * kUIImageSize = @"kUIImageSize";
 
 @implementation UIImage (Additions)
 
@@ -47,7 +56,9 @@ static NSCache *_imageCache = nil;
     if (!color)
         return nil;
     
-    NSArray *descriptors = @[color, @YES, [NSValue valueWithUICornerInset:cornerInset]];
+    NSDictionary *descriptors =  @{kUIImageColors : @[color],
+                                   kUIImageResizableImage : @YES,
+                                   kUIImageCornerInset : [NSValue valueWithUICornerInset:cornerInset]};
     UIImage *image = [self _cachedImageWithDescriptors:descriptors];
     if (image)
         return image;
@@ -77,7 +88,10 @@ static NSCache *_imageCache = nil;
     if (!image)
         return nil;
     
-    NSArray *descriptors = @[name, color, @(tintStyle)];
+    NSDictionary *descriptors =  @{kUIImageName : name,
+                                   kUIImageTintColor : color,
+                                   kUIImageTintStyle : @(tintStyle)};
+    
     UIImage *tintedImage = [self _cachedImageWithDescriptors:descriptors];
     
     if (!tintedImage)
@@ -214,7 +228,7 @@ static NSCache *_imageCache = nil;
     return isValid;
 }
 
-- (UIImage *)imageAddingImage:(UIImage*)image offset:(CGPoint)offset
+- (UIImage*)imageAddingImage:(UIImage*)image offset:(CGPoint)offset
 {
     CGSize size = self.size;
     CGFloat scale = self.scale;
@@ -247,66 +261,45 @@ static NSCache *_imageCache = nil;
     return _imageCache;
 }
 
-+ (UIImage*)_cachedImageWithDescriptors:(NSArray*)descriptors
++ (UIImage*)_cachedImageWithDescriptors:(NSDictionary*)descriptors
 {
-    NSString *key = [self _keyForImageWithDescriptors:descriptors];
-    
-    return [[self _cache] objectForKey:key];
+    return [[self _cache] objectForKey:[self _keyForImageWithDescriptors:descriptors]];
 }
 
-+ (void)_cacheImage:(UIImage*)image withDescriptors:(NSArray*)descriptors
++ (void)_cacheImage:(UIImage*)image withDescriptors:(NSDictionary*)descriptors
 {
     NSString *key = [self _keyForImageWithDescriptors:descriptors];
     [[self _cache] setObject:image forKey:key];
 }
 
-+ (NSString*)_keyForImageWithDescriptors:(NSArray*)descriptors
++ (NSString*)_keyForImageWithDescriptors:(NSDictionary*)descriptors
 {
     NSMutableString *string = [NSMutableString string];
     
-    for (id object in descriptors)
-    {        
-        if ([object isKindOfClass:[NSNumber class]])
-        {
-            [string appendFormat:@"%d-",[object integerValue]];
-        }
-        else if ([object isKindOfClass:[NSValue class]])
-        {
-            NSValue *value = object;
-                        
-            if (strcmp((const char *)@encode(CGSize), (const char *)value.objCType) == 0)
-            {
-                CGSize size = [value CGSizeValue];
-                [string appendFormat:@"%d-%d",(int)size.width, (int)size.height];
-            }
-            else if (strcmp(@encode(CGPoint), value.objCType) == 0)
-            {
-                CGPoint point = [value CGPointValue];
-                [string appendFormat:@"%d-%d-",(int)point.x, (int)point.y];
-            }
-            else if (strcmp(@encode(CGRect), value.objCType) == 0)
-            {
-                CGRect rect = [value CGRectValue];
-                [string appendFormat:@"%d-%d-%d-%d-",(int)rect.origin.x, (int)rect.origin.y, (int)rect.size.width, (int)rect.size.height];
-            }
-            else if (strcmp(@encode(UICornerInset), value.objCType) == 0)
-            {
-                UICornerInset cornerInset = [value UICornerInsetValue];
-                [string appendFormat:@"%d-%d-%d-%d-",(int)cornerInset.topLeft, (int)cornerInset.topRight, (int)cornerInset.bottomLeft, (int)cornerInset.bottomRight];
-            }
-        }
-        else
-        {
-            [string appendFormat:@"%d-",[object hash]];
-        }
-    }
+    NSString *imageName = [descriptors valueForKey:kUIImageName];
+    [string appendFormat:@"<%@:%@>",kUIImageName,(imageName == nil)?@"":imageName];
+    [string appendFormat:@"<%@:%@>",kUIImageSize, NSStringFromCGSize([[descriptors valueForKey:kUIImageSize] CGSizeValue])];
+    [string appendFormat:@"<%@:%d>",kUIImageResizableImage,[[descriptors valueForKey:kUIImageResizableImage] boolValue]];
+    
+    [string appendFormat:@"<%@:",kUIImageColors];
+    NSArray *colors = [descriptors valueForKey:kUIImageColors];
+    for (UIColor *color in colors)
+        [string appendFormat:@"%d",color.hash];
+    [string appendFormat:@">"];
+    
+    [string appendFormat:@"<%@:%d>",kUIImageTintColor,[[descriptors valueForKey:kUIImageTintColor] hash]];
+    [string appendFormat:@"<%@:%d>",kUIImageTintStyle,[[descriptors valueForKey:kUIImageTintStyle] integerValue]];
+    [string appendFormat:@"<%@:%@>",kUIImageCornerInset,NSStringFromUICornerInset([[descriptors valueForKey:kUIImageCornerInset] UICornerInsetValue])];
+    [string appendFormat:@"<%@:%d>",kUIImageGradientDirection,[[descriptors valueForKey:kUIImageGradientDirection] integerValue]];
     
     return [string md5];
 }
 
 + (UIImage*)_imageWithColor:(UIColor*)color size:(CGSize)size cornerInset:(UICornerInset)cornerInset saveInCache:(BOOL)save
 {
-    NSArray *descriptors = @[color, [NSValue valueWithCGSize:size], @NO, [NSValue valueWithUICornerInset:cornerInset]];
+    NSDictionary *descriptors =  @{kUIImageColors : @[color],
+                                   kUIImageSize : [NSValue valueWithCGSize:size],
+                                   kUIImageCornerInset : [NSValue valueWithUICornerInset:cornerInset]};
 
     UIImage *image = [self _cachedImageWithDescriptors:descriptors];
     
@@ -360,6 +353,83 @@ static NSCache *_imageCache = nil;
         [self _cacheImage:theImage withDescriptors:descriptors];
     
     return theImage;
+}
+
++ (UIImage*)imageWithGradient:(NSArray*)colors size:(CGSize)size direction:(UIImageGradientDirection)direction
+{
+    
+    NSDictionary *descriptors = @{kUIImageColors: colors,
+                                  kUIImageSize: [NSValue valueWithCGSize:size],
+                                  kUIImageGradientDirection: @(direction)};
+    
+    UIImage *image = [self _cachedImageWithDescriptors:descriptors];
+    if (image)
+        return image;
+    
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    // Create Gradient
+    NSMutableArray *cgColors = [NSMutableArray arrayWithCapacity:colors.count];
+    for (UIColor *color in colors)
+        [cgColors addObject:(id)color.CGColor];
+    
+    CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
+    CGGradientRef gradient = CGGradientCreateWithColors(space, (__bridge CFArrayRef)cgColors, NULL);
+    
+    // Apply gradient
+    CGPoint startPoint = CGPointZero;
+    CGPoint endPoint = CGPointZero;
+    
+    if (direction == UIImageGradientDirectionVertical)
+        endPoint = CGPointMake(0, rect.size.height);
+    
+    else if (direction == UIImageGradientDirectionHorizontal)
+        endPoint = CGPointMake(rect.size.width, 0);
+
+    CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0);
+    image = UIGraphicsGetImageFromCurrentImageContext();
+    
+    // Clean memory & End context
+    UIGraphicsEndImageContext();
+    CGGradientRelease(gradient);
+    CGColorSpaceRelease(space);
+    
+    [self _cacheImage:image withDescriptors:descriptors];
+    
+    return image;
+}
+
++ (UIImage*)resizableImageWithGradient:(NSArray*)colors size:(CGSize)size direction:(UIImageGradientDirection)direction
+{
+    NSDictionary *descriptors = @{kUIImageColors: colors,
+                                  kUIImageSize: [NSValue valueWithCGSize:size],
+                                  kUIImageGradientDirection: @(direction),
+                                  kUIImageResizableImage: @YES};
+    
+    UIImage *image = [self _cachedImageWithDescriptors:descriptors];
+    if (image)
+        return image;
+    
+    CGSize imageSize = CGSizeMake(1.0f, 1.0f);
+    
+    UIEdgeInsets insets = UIEdgeInsetsZero;
+    
+    if (direction == UIImageGradientDirectionVertical)
+    {
+        imageSize.height = size.height;
+        insets = UIEdgeInsetsMake(0.0f, 1.0f, 0.0f, 1.0f);
+    }
+    else if (direction == UIImageGradientDirectionHorizontal)
+    {
+        imageSize.width = size.width;
+        insets = UIEdgeInsetsMake(1.0f, 0.0f, 1.0f, 0.0f);
+    }
+    
+    return [[self imageWithGradient:colors size:imageSize direction:direction] resizableImageWithCapInsets:insets];
 }
 
 @end
