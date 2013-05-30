@@ -59,8 +59,8 @@ You can create linear gradient images (with two colors or more) using the follow
 	+ (UIImage*)imageWithGradient:(NSArray*)colors size:(CGSize)size direction:(UIImageGradientDirection)direction;
 	+ (UIImage*)resizableImageWithGradient:(NSArray*)colors size:(CGSize)size direction:(UIImageGradientDirection)direction;
 
-The first method returns an image with the a gradient using the specified colors and direction of the given size.
-The secon method returns the smallest resizable image that can generate a gradient of the specified size.
+The first method returns an image with a gradient using the specified colors and direction of the given size.
+The second method returns the smallest resizable image that can generate the desired gradient for the given size.
 
 
 ### Notes
