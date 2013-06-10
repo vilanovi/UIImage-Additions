@@ -433,8 +433,8 @@ static NSString * kUIImageSize = @"kUIImageSize";
 
 + (UIImage*)resizableImageWithGradient:(NSArray*)colors size:(CGSize)size direction:(UIImageGradientDirection)direction
 {
-    if ((size.width == 0.0f && direction == UIImageGradientDirectionVertical) ||
-        (size.height == 0.0f && direction == UIImageGradientDirectionHorizontal) ||
+    if ((size.width == 0.0f && direction == UIImageGradientDirectionHorizontal) ||
+        (size.height == 0.0f && direction == UIImageGradientDirectionVertical) ||
         (size.height == 0.0f && size.width == 0.0f))
         return nil;
     
