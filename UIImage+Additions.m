@@ -395,7 +395,6 @@ static NSString * kUIImageSize = @"kUIImageSize";
     
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
     
-    NSLog(@"SIZE: %@", NSStringFromCGSize(rect.size));
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0);
     
     CGContextRef context = UIGraphicsGetCurrentContext();
