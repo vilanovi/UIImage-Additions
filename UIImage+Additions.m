@@ -86,7 +86,9 @@ static NSString * kUIImageSize = @"kUIImageSize";
     NSDictionary *descriptors =  @{kUIImageColors : @[color],
                                    kUIImageResizableImage : @YES,
                                    kUIImageCornerInset : [NSValue valueWithUICornerInset:cornerInset]};
+    
     UIImage *image = [self _cachedImageWithDescriptors:descriptors];
+    
     if (image)
         return image;
     
@@ -114,6 +116,9 @@ static NSString * kUIImageSize = @"kUIImageSize";
     
     if (!image)
         return nil;
+    
+    if (!color)
+        return image;
     
     NSDictionary *descriptors =  @{kUIImageName : name,
                                    kUIImageTintColor : color,
