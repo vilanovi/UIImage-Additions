@@ -85,6 +85,22 @@ typedef enum __UIImageGradientDirection
 + (UIImage*)resizableImageWithColor:(UIColor*)color cornerRadius:(CGFloat)cornerRadius;
 + (UIImage*)resizableImageWithColor:(UIColor*)color cornerInset:(UICornerInset)cornerInset;
 
++ (UIImage*)blackColorImage;
++ (UIImage*)darkGrayColorImage;
++ (UIImage*)lightGrayColorImage;
++ (UIImage*)whiteColorImage;
++ (UIImage*)grayColorImage;
++ (UIImage*)redColorImage;
++ (UIImage*)greenColorImage;
++ (UIImage*)blueColorImage;
++ (UIImage*)cyanColorImage;
++ (UIImage*)yellowColorImage;
++ (UIImage*)magentaColorImage;
++ (UIImage*)orangeColorImage;
++ (UIImage*)purpleColorImage;
++ (UIImage*)brownColorImage;
++ (UIImage*)clearColorImage;
+
 /*
  * Tint Images
  */

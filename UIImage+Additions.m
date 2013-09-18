@@ -126,6 +126,81 @@ static NSString * kUIImageSize = @"kUIImageSize";
     return image;
 }
 
++ (UIImage*)blackColorImage
+{
+    return [self resizableImageWithColor:[UIColor blackColor]];
+}
+
++ (UIImage*)darkGrayColorImage
+{
+    return [self resizableImageWithColor:[UIColor darkGrayColor]];
+}
+
++ (UIImage*)lightGrayColorImage
+{
+    return [self resizableImageWithColor:[UIColor lightGrayColor]];
+}
+
++ (UIImage*)whiteColorImage
+{
+    return [self resizableImageWithColor:[UIColor whiteColor]];
+}
+
++ (UIImage*)grayColorImage
+{
+    return [self resizableImageWithColor:[UIColor grayColor]];
+}
+
++ (UIImage*)redColorImage
+{
+    return [self resizableImageWithColor:[UIColor redColor]];
+}
+
++ (UIImage*)greenColorImage
+{
+    return [self resizableImageWithColor:[UIColor greenColor]];
+}
+
++ (UIImage*)blueColorImage
+{
+    return [self resizableImageWithColor:[UIColor blueColor]];
+}
+
++ (UIImage*)cyanColorImage
+{
+    return [self resizableImageWithColor:[UIColor cyanColor]];
+}
+
++ (UIImage*)yellowColorImage
+{
+    return [self resizableImageWithColor:[UIColor yellowColor]];
+}
+
++ (UIImage*)magentaColorImage
+{
+    return [self resizableImageWithColor:[UIColor magentaColor]];
+}
+
++ (UIImage*)orangeColorImage
+{
+    return [self resizableImageWithColor:[UIColor orangeColor]];
+}
+
++ (UIImage*)purpleColorImage
+{
+    return [self resizableImageWithColor:[UIColor purpleColor]];
+}
+
++ (UIImage*)brownColorImage
+{
+    return [self resizableImageWithColor:[UIColor brownColor]];
+}
+
++ (UIImage*)clearColorImage
+{
+    return [self resizableImageWithColor:[UIColor clearColor]];
+}
+
 + (UIImage*)imageNamed:(NSString *)name tintColor:(UIColor*)color style:(UIImageTintedStyle)tintStyle
 {
     if (!name)
