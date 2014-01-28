@@ -1,7 +1,6 @@
-
 Pod::Spec.new do |s|
 
-  s.name         = "UIImage-Additions"
+  s.name         = "UIImage+Additions"
   s.version      = "1.0.0"
   s.summary      = "Adding methods to generate dynamically images from colors, adding corner radius, tinting images, etc."
 
