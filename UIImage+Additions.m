@@ -39,7 +39,7 @@
     const char *cStr = [self UTF8String];
     unsigned char result[16];
     
-    CC_MD5(cStr, strlen(cStr), result);
+    CC_MD5(cStr, (u_int32_t)strlen(cStr), result);
     
     return [NSString stringWithFormat:
 			@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
@@ -301,9 +301,9 @@ static NSString * kUIImageSize = @"kUIImageSize";
     cornerInset.topLeft *= scale;
     cornerInset.bottomLeft *= scale;
     cornerInset.bottomRight *= scale;
-        
+    
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef context = CGBitmapContextCreate(NULL, rect.size.width, rect.size.height, 8, 0, colorSpace, kCGImageAlphaPremultipliedLast);
+    CGContextRef context = CGBitmapContextCreate(NULL, rect.size.width, rect.size.height, 8, 0, colorSpace, (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
     CGColorSpaceRelease(colorSpace);
     
     if (context == NULL)
@@ -410,13 +410,13 @@ static NSString * kUIImageSize = @"kUIImageSize";
     [string appendFormat:@"<%@:",kUIImageColors];
     NSArray *colors = [descriptors valueForKey:kUIImageColors];
     for (UIColor *color in colors)
-        [string appendFormat:@"%d",color.hash];
+        [string appendFormat:@"%d",(int)color.hash];
     [string appendFormat:@">"];
     
-    [string appendFormat:@"<%@:%d>",kUIImageTintColor,[[descriptors valueForKey:kUIImageTintColor] hash]];
-    [string appendFormat:@"<%@:%d>",kUIImageTintStyle,[[descriptors valueForKey:kUIImageTintStyle] integerValue]];
+    [string appendFormat:@"<%@:%d>",kUIImageTintColor,(int)[[descriptors valueForKey:kUIImageTintColor] hash]];
+    [string appendFormat:@"<%@:%d>",kUIImageTintStyle,[[descriptors valueForKey:kUIImageTintStyle] intValue]];
     [string appendFormat:@"<%@:%@>",kUIImageCornerInset,NSStringFromUICornerInset([[descriptors valueForKey:kUIImageCornerInset] UICornerInsetValue])];
-    [string appendFormat:@"<%@:%d>",kUIImageGradientDirection,[[descriptors valueForKey:kUIImageGradientDirection] integerValue]];
+    [string appendFormat:@"<%@:%d>",kUIImageGradientDirection,[[descriptors valueForKey:kUIImageGradientDirection] intValue]];
     
     return [string md5];
 }
@@ -441,7 +441,7 @@ static NSString * kUIImageSize = @"kUIImageSize";
     cornerInset.bottomRight *= scale;
     
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef context = CGBitmapContextCreate(NULL, rect.size.width, rect.size.height, 8, 0, colorSpace, kCGImageAlphaPremultipliedLast);
+    CGContextRef context = CGBitmapContextCreate(NULL, rect.size.width, rect.size.height, 8, 0, colorSpace, (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
     
     CGColorSpaceRelease(colorSpace);
     
