@@ -301,9 +301,9 @@ static NSString * kUIImageSize = @"kUIImageSize";
     cornerInset.topLeft *= scale;
     cornerInset.bottomLeft *= scale;
     cornerInset.bottomRight *= scale;
-        
+    
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef context = CGBitmapContextCreate(NULL, rect.size.width, rect.size.height, 8, 0, colorSpace, kCGImageAlphaPremultipliedLast);
+    CGContextRef context = CGBitmapContextCreate(NULL, rect.size.width, rect.size.height, 8, 0, colorSpace, (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
     CGColorSpaceRelease(colorSpace);
     
     if (context == NULL)
@@ -441,7 +441,7 @@ static NSString * kUIImageSize = @"kUIImageSize";
     cornerInset.bottomRight *= scale;
     
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef context = CGBitmapContextCreate(NULL, rect.size.width, rect.size.height, 8, 0, colorSpace, kCGImageAlphaPremultipliedLast);
+    CGContextRef context = CGBitmapContextCreate(NULL, rect.size.width, rect.size.height, 8, 0, colorSpace, (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
     
     CGColorSpaceRelease(colorSpace);
     
