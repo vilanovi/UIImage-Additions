@@ -39,7 +39,7 @@
     const char *cStr = [self UTF8String];
     unsigned char result[16];
     
-    CC_MD5(cStr, strlen(cStr), result);
+    CC_MD5(cStr, (CC_LONG)strlen(cStr), result);
     
     return [NSString stringWithFormat:
 			@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
@@ -410,13 +410,13 @@ static NSString * kUIImageSize = @"kUIImageSize";
     [string appendFormat:@"<%@:",kUIImageColors];
     NSArray *colors = [descriptors valueForKey:kUIImageColors];
     for (UIColor *color in colors)
-        [string appendFormat:@"%d",color.hash];
+        [string appendFormat:@"%ld",(long)color.hash];
     [string appendFormat:@">"];
     
-    [string appendFormat:@"<%@:%d>",kUIImageTintColor,[[descriptors valueForKey:kUIImageTintColor] hash]];
-    [string appendFormat:@"<%@:%d>",kUIImageTintStyle,[[descriptors valueForKey:kUIImageTintStyle] integerValue]];
+    [string appendFormat:@"<%@:%ld>",kUIImageTintColor,(long)[[descriptors valueForKey:kUIImageTintColor] hash]];
+    [string appendFormat:@"<%@:%ld>",kUIImageTintStyle,(long)[[descriptors valueForKey:kUIImageTintStyle] integerValue]];
     [string appendFormat:@"<%@:%@>",kUIImageCornerInset,NSStringFromUICornerInset([[descriptors valueForKey:kUIImageCornerInset] UICornerInsetValue])];
-    [string appendFormat:@"<%@:%d>",kUIImageGradientDirection,[[descriptors valueForKey:kUIImageGradientDirection] integerValue]];
+    [string appendFormat:@"<%@:%ld>",kUIImageGradientDirection,(long)[[descriptors valueForKey:kUIImageGradientDirection] integerValue]];
     
     return [string md5];
 }
