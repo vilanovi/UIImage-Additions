@@ -371,7 +371,7 @@ static NSString * kUIImageSize = @"kUIImageSize";
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGImageRef bitmapContext = CGBitmapContextCreateImage(context);
     UIImage *destImage = [UIImage imageWithCGImage:bitmapContext scale:image.scale orientation:UIImageOrientationUp];
-    CGContextRelease(context);
+    UIGraphicsEndImageContext();
     CGImageRelease(bitmapContext);
     
     return destImage;
