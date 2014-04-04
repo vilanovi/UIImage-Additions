@@ -354,6 +354,16 @@ static NSString * kUIImageSize = @"kUIImageSize";
     return isValid;
 }
 
+- (UIImage*)imageAddingImage:(UIImage*)image
+{
+    CGSize size1 = self.size;
+    CGSize size2 = image.size;
+    
+    CGPoint offset = CGPointMake(floorf((size1.width - size2.width)/2.0),
+                                 floorf((size1.height - size2.height)/2.0));
+    return [self imageAddingImage:image offset:offset];
+}
+
 - (UIImage*)imageAddingImage:(UIImage*)image offset:(CGPoint)offset
 {
     CGSize size = self.size;

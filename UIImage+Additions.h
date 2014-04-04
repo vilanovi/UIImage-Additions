@@ -118,6 +118,7 @@ typedef enum __UIImageGradientDirection
 /*
  * Drawing image on image
  */
+- (UIImage*)imageAddingImage:(UIImage*)image;
 - (UIImage*)imageAddingImage:(UIImage*)image offset:(CGPoint)offset;
 
 /*
