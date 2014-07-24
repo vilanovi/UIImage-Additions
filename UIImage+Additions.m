@@ -72,6 +72,11 @@ static NSString * kUIImageSize = @"kUIImageSize";
 
 @implementation UIImage (Additions)
 
++ (UIImage*)imageWithColor:(UIColor*)color
+{
+    return [self imageWithColor:color size:CGSizeMake(1, 1)];
+}
+
 + (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size
 {
     return [self imageWithColor:color size:size cornerInset:UICornerInsetZero];
