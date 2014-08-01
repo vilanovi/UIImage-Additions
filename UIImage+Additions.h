@@ -76,15 +76,17 @@ typedef enum __UIImageGradientDirection
  */
 + (UIImage*)imageWithColor:(UIColor*)color;
 + (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size;
-+ (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size cornerRadius:(CGFloat)cornerRadius;
-+ (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size cornerInset:(UICornerInset)cornerInset;
++ (UIImage*)imageWithColor:(UIColor*)color borderAttributes:(NSDictionary*)borderAttributes size:(CGSize)size;
++ (UIImage*)imageWithColor:(UIColor*)color borderAttributes:(NSDictionary*)borderAttributes size:(CGSize)size cornerRadius:(CGFloat)cornerRadius;
++ (UIImage*)imageWithColor:(UIColor*)color borderAttributes:(NSDictionary*)borderAttributes size:(CGSize)size cornerInset:(UICornerInset)cornerInset;
 
 /*
  * Create rezisable images from colors
  */
 + (UIImage*)resizableImageWithColor:(UIColor*)color;
 + (UIImage*)resizableImageWithColor:(UIColor*)color cornerRadius:(CGFloat)cornerRadius;
-+ (UIImage*)resizableImageWithColor:(UIColor*)color cornerInset:(UICornerInset)cornerInset;
++ (UIImage*)resizableImageWithColor:(UIColor*)color borderAttributes:(NSDictionary*)borderAttributes cornerRadius:(CGFloat)cornerRadius;
++ (UIImage*)resizableImageWithColor:(UIColor*)color borderAttributes:(NSDictionary*)borderAttributes cornerInset:(UICornerInset)cornerInset;
 
 + (UIImage*)blackColorImage;
 + (UIImage*)darkGrayColorImage;
