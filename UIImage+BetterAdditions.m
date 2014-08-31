@@ -1,28 +1,30 @@
 //
-//  UIImage+Additions.m
-//  Created by Joan Martin.
-//  Take a look to my repos at http://github.com/vilanovi
+// The MIT License (MIT)
 //
-// Copyright (c) 2013 Joan Martin, vilanovi@gmail.com.
+// Copyright (c) 2013 Joan Martin (vilanovi@gmail.com)
+//               2014 Suyeol Jeon (http://xoul.kr)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights to
-// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-// of the Software, and to permit persons to whom the Software is furnished to do
-// so, subject to the following conditions:
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-// PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//
 
-#import "UIImage+Additions.h"
+
+#import "UIImage+BetterAdditions.h"
 
 @interface NSString (MD5Hashing)
 
@@ -64,6 +66,7 @@ static NSCache * _imageCache = nil;
 static NSString * kUIImageName = @"kUIImageName";
 static NSString * kUIImageResizableImage = @"kUIImageResizableImage";
 static NSString * kUIImageColors = @"kUIImageColors";
+static NSString * kUIImageBorderAttributes = @"kUIImageBorderAttributes";
 static NSString * kUIImageTintColor = @"kUIImageTintColor";
 static NSString * kUIImageTintStyle = @"kUIImageTintStyle";
 static NSString * kUIImageCornerInset = @"kUIImageCornerInset";
@@ -79,36 +82,47 @@ static NSString * kUIImageSize = @"kUIImageSize";
 
 + (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size
 {
-    return [self imageWithColor:color size:size cornerInset:UICornerInsetZero];
+    return [self imageWithColor:color borderAttributes:nil size:size cornerInset:UICornerInsetZero];
 }
 
-+ (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size cornerRadius:(CGFloat)cornerRadius
++ (UIImage*)imageWithColor:(UIColor*)color borderAttributes:(NSDictionary*)borderAttributes size:(CGSize)size
 {
-    return [self imageWithColor:color size:size cornerInset:UICornerInsetMake(cornerRadius, cornerRadius, cornerRadius, cornerRadius)];
+    return [self imageWithColor:color borderAttributes:borderAttributes size:size cornerInset:UICornerInsetZero];
 }
 
-+ (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size cornerInset:(UICornerInset)cornerInset
++ (UIImage*)imageWithColor:(UIColor*)color borderAttributes:(NSDictionary*)borderAttributes size:(CGSize)size cornerRadius:(CGFloat)cornerRadius
 {
-    return [self _imageWithColor:color size:size cornerInset:cornerInset saveInCache:YES];
+    return [self imageWithColor:color borderAttributes:borderAttributes size:size cornerInset:UICornerInsetMake(cornerRadius, cornerRadius, cornerRadius, cornerRadius)];
+}
+
++ (UIImage*)imageWithColor:(UIColor*)color borderAttributes:(NSDictionary*)borderAttributes size:(CGSize)size cornerInset:(UICornerInset)cornerInset
+{
+    return [self _imageWithColor:color borderAttributes:borderAttributes size:size cornerInset:cornerInset saveInCache:YES];
 }
 
 + (UIImage*)resizableImageWithColor:(UIColor*)color
 {
-    return [self resizableImageWithColor:color cornerInset:UICornerInsetZero];
+    return [self resizableImageWithColor:color borderAttributes:nil cornerInset:UICornerInsetZero];
 }
 
-+ (UIImage*)resizableImageWithColor:(UIColor*)color cornerRadius:(CGFloat)cornerRadius
++ (UIImage*)resizableImageWithColor:(UIColor*)color cornerRadius:(CGFloat)cornerRadius;
 {
-    return [self resizableImageWithColor:color cornerInset:UICornerInsetMake(cornerRadius, cornerRadius, cornerRadius, cornerRadius)];
+    return [self resizableImageWithColor:color borderAttributes:nil cornerInset:UICornerInsetMake(cornerRadius, cornerRadius, cornerRadius, cornerRadius)];
 }
 
-+ (UIImage*)resizableImageWithColor:(UIColor*)color cornerInset:(UICornerInset)cornerInset
++ (UIImage*)resizableImageWithColor:(UIColor*)color borderAttributes:(NSDictionary*)borderAttributes cornerRadius:(CGFloat)cornerRadius
+{
+    return [self resizableImageWithColor:color borderAttributes:borderAttributes cornerInset:UICornerInsetMake(cornerRadius, cornerRadius, cornerRadius, cornerRadius)];
+}
+
++ (UIImage*)resizableImageWithColor:(UIColor*)color borderAttributes:(NSDictionary*)borderAttributes cornerInset:(UICornerInset)cornerInset
 {
     if (!color)
         return nil;
     
     NSDictionary *descriptors =  @{kUIImageColors : @[color],
                                    kUIImageResizableImage : @YES,
+                                   kUIImageBorderAttributes : borderAttributes ?: [NSNull null],
                                    kUIImageCornerInset : [NSValue valueWithUICornerInset:cornerInset]};
     
     UIImage *image = [self _cachedImageWithDescriptors:descriptors];
@@ -116,15 +130,17 @@ static NSString * kUIImageSize = @"kUIImageSize";
     if (image)
         return image;
     
-    CGSize size = CGSizeMake(MAX(cornerInset.topLeft, cornerInset.bottomLeft) + MAX(cornerInset.topRight, cornerInset.bottomRight) + 1,
-                             MAX(cornerInset.topLeft, cornerInset.topRight) + MAX(cornerInset.bottomLeft, cornerInset.bottomRight) + 1);
+    CGFloat borderWidth = [borderAttributes[NSStrokeWidthAttributeName] floatValue];
+
+    CGSize size = CGSizeMake(MAX(cornerInset.topLeft, cornerInset.bottomLeft) + MAX(cornerInset.topRight, cornerInset.bottomRight) + borderWidth * 2 + 1,
+                             MAX(cornerInset.topLeft, cornerInset.topRight) + MAX(cornerInset.bottomLeft, cornerInset.bottomRight) + borderWidth * 2 + 1);
     
-    UIEdgeInsets capInsets = UIEdgeInsetsMake(MAX(cornerInset.topLeft, cornerInset.topRight),
-                                              MAX(cornerInset.topLeft, cornerInset.bottomLeft),
-                                              MAX(cornerInset.bottomLeft, cornerInset.bottomRight),
-                                              MAX(cornerInset.topRight, cornerInset.bottomRight));
+    UIEdgeInsets capInsets = UIEdgeInsetsMake(MAX(cornerInset.topLeft, cornerInset.topRight) + borderWidth,
+                                              MAX(cornerInset.topLeft, cornerInset.bottomLeft) + borderWidth,
+                                              MAX(cornerInset.bottomLeft, cornerInset.bottomRight) + borderWidth,
+                                              MAX(cornerInset.topRight, cornerInset.bottomRight) + borderWidth);
     
-    image = [[self imageWithColor:color size:size cornerInset:cornerInset] resizableImageWithCapInsets:capInsets];
+    image = [[self imageWithColor:color borderAttributes:borderAttributes size:size cornerInset:cornerInset] resizableImageWithCapInsets:capInsets];
     
     [self _cacheImage:image withDescriptors:descriptors];
     
@@ -427,6 +443,13 @@ static NSString * kUIImageSize = @"kUIImageSize";
     for (UIColor *color in colors)
         [string appendFormat:@"%ld",(long)color.hash];
     [string appendFormat:@">"];
+
+    NSDictionary *borderAttributes = descriptors[kUIImageBorderAttributes];
+    if (![borderAttributes isEqual:[NSNull null]]) {
+        UIColor *borderColor = borderAttributes[NSStrokeColorAttributeName];
+        NSNumber *borderWidth = borderAttributes[NSStrokeWidthAttributeName];
+        [string appendFormat:@"<%@:%ld%f>", kUIImageBorderAttributes, borderColor.hash, borderWidth.floatValue];
+    }
     
     [string appendFormat:@"<%@:%ld>",kUIImageTintColor,(long)[[descriptors valueForKey:kUIImageTintColor] hash]];
     [string appendFormat:@"<%@:%ld>",kUIImageTintStyle,(long)[[descriptors valueForKey:kUIImageTintStyle] integerValue]];
@@ -438,7 +461,13 @@ static NSString * kUIImageSize = @"kUIImageSize";
 
 + (UIImage*)_imageWithColor:(UIColor*)color size:(CGSize)size cornerInset:(UICornerInset)cornerInset saveInCache:(BOOL)save
 {
+    return [self _imageWithColor:color borderAttributes:nil size:size cornerInset:cornerInset saveInCache:save];
+}
+
++ (UIImage*)_imageWithColor:(UIColor*)color borderAttributes:(NSDictionary *)borderAttributes size:(CGSize)size cornerInset:(UICornerInset)cornerInset saveInCache:(BOOL)save
+{
     NSDictionary *descriptors =  @{kUIImageColors : @[color],
+                                   kUIImageBorderAttributes : borderAttributes ?: [NSNull null],
                                    kUIImageSize : [NSValue valueWithCGSize:size],
                                    kUIImageCornerInset : [NSValue valueWithUICornerInset:cornerInset]};
 
@@ -463,6 +492,10 @@ static NSString * kUIImageSize = @"kUIImageSize";
     if (context == NULL)
         return nil;
     
+    UIColor *borderColor = borderAttributes[NSStrokeColorAttributeName];
+    CGFloat borderWidth = [borderAttributes[NSStrokeWidthAttributeName] floatValue] * scale;
+    rect = CGRectInset(rect, borderWidth / 2.0, borderWidth / 2.0);
+    
     CGFloat minx = CGRectGetMinX(rect), midx = CGRectGetMidX(rect), maxx = CGRectGetMaxX(rect);
     CGFloat miny = CGRectGetMinY(rect), midy = CGRectGetMidY(rect), maxy = CGRectGetMaxY(rect);
     
@@ -472,6 +505,11 @@ static NSString * kUIImageSize = @"kUIImageSize";
     CGContextClosePath(context);
     CGContextDrawPath(context, kCGPathFill);
     
+    if (borderColor)
+        CGContextSetStrokeColorWithColor(context, [borderColor CGColor]);
+    if (borderWidth)
+        CGContextSetLineWidth(context, borderWidth);
+    
     CGContextSetFillColorWithColor(context, [color CGColor]); // <-- Color to fill
     CGContextBeginPath(context);
     CGContextMoveToPoint(context, minx, midy);
@@ -480,7 +518,7 @@ static NSString * kUIImageSize = @"kUIImageSize";
     CGContextAddArcToPoint(context, maxx, maxy, midx, maxy, cornerInset.topRight);
     CGContextAddArcToPoint(context, minx, maxy, minx, midy, cornerInset.topLeft);
     CGContextClosePath(context);
-    CGContextDrawPath(context, kCGPathFill);
+    CGContextDrawPath(context, borderColor || borderWidth ? kCGPathFillStroke : kCGPathFill);
     
     CGImageRef bitmapContext = CGBitmapContextCreateImage(context);
     
