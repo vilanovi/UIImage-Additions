@@ -67,6 +67,8 @@ typedef enum __UIImageGradientDirection
 {
     UIImageGradientDirectionVertical    = 1,
     UIImageGradientDirectionHorizontal  = 2,
+    UIImageGradientDirectionLeftSlanted = 3,
+    UIImageGradientDirectionRightSlanted = 4
 } UIImageGradientDirection;
 
 @interface UIImage (Additions)
