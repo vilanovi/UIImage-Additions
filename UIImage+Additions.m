@@ -72,6 +72,11 @@ static NSString * kUIImageSize = @"kUIImageSize";
 
 @implementation UIImage (Additions)
 
++ (UIImage*)imageWithColor:(UIColor*)color
+{
+    return [self imageWithColor:color size:CGSizeMake(1, 1)];
+}
+
 + (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size
 {
     return [self imageWithColor:color size:size cornerInset:UICornerInsetZero];
@@ -531,7 +536,16 @@ static NSString * kUIImageSize = @"kUIImageSize";
     
     else if (direction == UIImageGradientDirectionHorizontal)
         endPoint = CGPointMake(rect.size.width, 0);
+    
+    else if (direction == UIImageGradientDirectionLeftSlanted)
+        endPoint = CGPointMake(rect.size.width, rect.size.height);
 
+    else if (direction == UIImageGradientDirectionRightSlanted)
+    {
+        startPoint = CGPointMake(rect.size.width, 0);
+        endPoint = CGPointMake(0, rect.size.height);
+    }
+        
     CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0);
     image = UIGraphicsGetImageFromCurrentImageContext();
     
@@ -574,6 +588,12 @@ static NSString * kUIImageSize = @"kUIImageSize";
     {
         imageSize.width = size.width;
         insets = UIEdgeInsetsMake(1.0f, 0.0f, 1.0f, 0.0f);
+    }
+    else
+    {
+        imageSize.width = size.width;
+        imageSize.height = size.height;
+        insets = UIEdgeInsetsMake(1.0f, 1.0f, 1.0f, 1.0f);
     }
     
     return [[self imageWithGradient:colors size:imageSize direction:direction] resizableImageWithCapInsets:insets];
