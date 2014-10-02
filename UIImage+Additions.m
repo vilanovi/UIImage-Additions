@@ -604,8 +604,8 @@ static NSString * kUIImageSize = @"kUIImageSize";
 #pragma mark - Categories
 
 @implementation NSValue (UICornerInset)
-
 + (NSValue*)valueWithUICornerInset:(UICornerInset)cornerInset
+
 {
     CGRect rect = CGRectMake(cornerInset.topLeft, cornerInset.topRight, cornerInset.bottomLeft, cornerInset.bottomRight);
     return [NSValue valueWithCGRect:rect];

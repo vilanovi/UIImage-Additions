@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "UIImage+Additions"
-  s.version      = "1.1.0"
+  s.version      = "1.2.0"
   s.summary      = "Adding methods to generate dynamically images from colors, adding corner radius, tinting images, etc."
 
   s.description  = <<-DESC
@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.author             = { "Joan Martin" => "vilanovi@gmail.com" }
   s.social_media_url = "http://twitter.com/joan_mh"
   s.platform     = :ios
-  s.source       = { :git => "https://github.com/vilanovi/UIImage-Additions.git", :tag => "1.1.0" }
+  s.source       = { :git => "https://github.com/vilanovi/UIImage-Additions.git", :tag => "1.2.0" }
   s.source_files = 'UIImage+Additions.{h,m}'
   s.framework  = 'UIKit'
   s.requires_arc = true

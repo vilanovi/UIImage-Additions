@@ -44,6 +44,7 @@ You can use the following tint styles:
 
 * Use `UIImageTintedStyleKeepingAlpha` to keep transaprent pixels and tint only those that are not translucid.
 * Use `UIImageTintedStyleOverAlpha` to keep non transparent pixels and tint only those that are translucid.
+* Use `UIImageTintedStyleOverAlphaExtreme` to remove (turn to transparent) non transparent pixels and tint only those that are translucid.
 
 ###V. Superposing images
 
