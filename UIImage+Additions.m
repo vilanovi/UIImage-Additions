@@ -247,21 +247,27 @@ static NSString * kUIImageSize = @"kUIImageSize";
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
     // ---
 
-    if (tintStyle == UIImageTintedStyleOverAlpha)
-    {
-        [color setFill];
-        CGContextFillRect(context, rect);
-    }
-    
-    // draw alpha-mask
-    CGContextSetBlendMode(context, kCGBlendModeNormal);
-    CGContextDrawImage(context, rect, self.CGImage);
-
     if (tintStyle == UIImageTintedStyleKeepingAlpha)
     {
+        CGContextSetBlendMode(context, kCGBlendModeNormal);
+        CGContextDrawImage(context, rect, self.CGImage);
         CGContextSetBlendMode(context, kCGBlendModeSourceIn);
         [color setFill];
         CGContextFillRect(context, rect);
+    }
+    else if (tintStyle == UIImageTintedStyleOverAlpha)
+    {
+        [color setFill];
+        CGContextFillRect(context, rect);
+        CGContextSetBlendMode(context, kCGBlendModeNormal);
+        CGContextDrawImage(context, rect, self.CGImage);
+    }
+    else if (tintStyle == UIImageTintedStyleOverAlphaExtreme)
+    {
+        [color setFill];
+        CGContextFillRect(context, rect);
+        CGContextSetBlendMode(context, kCGBlendModeDestinationOut);
+        CGContextDrawImage(context, rect, self.CGImage);
     }
     
     // ---

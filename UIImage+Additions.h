@@ -60,7 +60,8 @@ FOUNDATION_EXTERN NSString* NSStringFromUICornerInset(UICornerInset cornerInset)
 typedef enum __UIImageTintedStyle
 {
     UIImageTintedStyleKeepingAlpha      = 1,
-    UIImageTintedStyleOverAlpha         = 2
+    UIImageTintedStyleOverAlpha         = 2,
+    UIImageTintedStyleOverAlphaExtreme  = 3,
 } UIImageTintedStyle;
 
 typedef enum __UIImageGradientDirection
