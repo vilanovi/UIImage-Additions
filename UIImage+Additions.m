@@ -52,11 +52,11 @@
 
 @end
 
-const UICornerInset UICornerInsetZero = {0.0f, 0.0f, 0.0f, 0.0f};
+const ADDCornerInset ADDCornerInsetZero = {0.0f, 0.0f, 0.0f, 0.0f};
 
-NSString* NSStringFromUICornerInset(UICornerInset cornerInset)
+NSString* NSStringFromADDCornerInset(ADDCornerInset cornerInset)
 {
-    return [NSString stringWithFormat:@"UICornerInset <topLeft:%f> <topRight:%f> <bottomLeft:%f> <bottomRight:%f>",cornerInset.topLeft, cornerInset.topRight, cornerInset.bottomLeft, cornerInset.bottomRight];
+    return [NSString stringWithFormat:@"ADDCornerInset <topLeft:%f> <topRight:%f> <bottomLeft:%f> <bottomRight:%f>",cornerInset.topLeft, cornerInset.topRight, cornerInset.bottomLeft, cornerInset.bottomRight];
 }
 
 static NSCache * _imageCache = nil;
@@ -67,51 +67,51 @@ static NSString * kUIImageColors = @"kUIImageColors";
 static NSString * kUIImageTintColor = @"kUIImageTintColor";
 static NSString * kUIImageTintStyle = @"kUIImageTintStyle";
 static NSString * kUIImageCornerInset = @"kUIImageCornerInset";
-static NSString * kUIImageGradientDirection = @"kUIImageGradientDirection";
+static NSString * kADDImageGradientDirection = @"kADDImageGradientDirection";
 static NSString * kUIImageSize = @"kUIImageSize";
 
 @implementation UIImage (Additions)
 
-+ (UIImage*)imageWithColor:(UIColor*)color
++ (UIImage*)add_imageWithColor:(UIColor*)color
 {
-    return [self imageWithColor:color size:CGSizeMake(1, 1)];
+    return [self add_imageWithColor:color size:CGSizeMake(1, 1)];
 }
 
-+ (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size
++ (UIImage*)add_imageWithColor:(UIColor*)color size:(CGSize)size
 {
-    return [self imageWithColor:color size:size cornerInset:UICornerInsetZero];
+    return [self add_imageWithColor:color size:size cornerInset:ADDCornerInsetZero];
 }
 
-+ (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size cornerRadius:(CGFloat)cornerRadius
++ (UIImage*)add_imageWithColor:(UIColor*)color size:(CGSize)size cornerRadius:(CGFloat)cornerRadius
 {
-    return [self imageWithColor:color size:size cornerInset:UICornerInsetMake(cornerRadius, cornerRadius, cornerRadius, cornerRadius)];
+    return [self add_imageWithColor:color size:size cornerInset:ADDCornerInsetMake(cornerRadius, cornerRadius, cornerRadius, cornerRadius)];
 }
 
-+ (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size cornerInset:(UICornerInset)cornerInset
++ (UIImage*)add_imageWithColor:(UIColor*)color size:(CGSize)size cornerInset:(ADDCornerInset)cornerInset
 {
-    return [self mjz_imageWithColor:color size:size cornerInset:cornerInset saveInCache:YES];
+    return [self add_imageWithColor:color size:size cornerInset:cornerInset saveInCache:YES];
 }
 
-+ (UIImage*)resizableImageWithColor:(UIColor*)color
++ (UIImage*)add_resizableImageWithColor:(UIColor*)color
 {
-    return [self resizableImageWithColor:color cornerInset:UICornerInsetZero];
+    return [self add_resizableImageWithColor:color cornerInset:ADDCornerInsetZero];
 }
 
-+ (UIImage*)resizableImageWithColor:(UIColor*)color cornerRadius:(CGFloat)cornerRadius
++ (UIImage*)add_resizableImageWithColor:(UIColor*)color cornerRadius:(CGFloat)cornerRadius
 {
-    return [self resizableImageWithColor:color cornerInset:UICornerInsetMake(cornerRadius, cornerRadius, cornerRadius, cornerRadius)];
+    return [self add_resizableImageWithColor:color cornerInset:ADDCornerInsetMake(cornerRadius, cornerRadius, cornerRadius, cornerRadius)];
 }
 
-+ (UIImage*)resizableImageWithColor:(UIColor*)color cornerInset:(UICornerInset)cornerInset
++ (UIImage*)add_resizableImageWithColor:(UIColor*)color cornerInset:(ADDCornerInset)cornerInset
 {
     if (!color)
         return nil;
     
     NSDictionary *descriptors =  @{kUIImageColors : @[color],
                                    kUIImageResizableImage : @YES,
-                                   kUIImageCornerInset : [NSValue valueWithUICornerInset:cornerInset]};
+                                   kUIImageCornerInset : [NSValue valueWithADDCornerInset:cornerInset]};
     
-    UIImage *image = [self mjz_cachedImageWithDescriptors:descriptors];
+    UIImage *image = [self add_cachedImageWithDescriptors:descriptors];
     
     if (image)
         return image;
@@ -124,89 +124,89 @@ static NSString * kUIImageSize = @"kUIImageSize";
                                               MAX(cornerInset.bottomLeft, cornerInset.bottomRight),
                                               MAX(cornerInset.topRight, cornerInset.bottomRight));
     
-    image = [[self imageWithColor:color size:size cornerInset:cornerInset] resizableImageWithCapInsets:capInsets];
+    image = [[self add_imageWithColor:color size:size cornerInset:cornerInset] resizableImageWithCapInsets:capInsets];
     
-    [self mjz_cacheImage:image withDescriptors:descriptors];
+    [self add_cacheImage:image withDescriptors:descriptors];
     
     return image;
 }
 
-+ (UIImage*)blackColorImage
++ (UIImage*)add_blackColorImage
 {
-    return [self resizableImageWithColor:[UIColor blackColor]];
+    return [self add_resizableImageWithColor:[UIColor blackColor]];
 }
 
-+ (UIImage*)darkGrayColorImage
++ (UIImage*)add_darkGrayColorImage
 {
-    return [self resizableImageWithColor:[UIColor darkGrayColor]];
+    return [self add_resizableImageWithColor:[UIColor darkGrayColor]];
 }
 
-+ (UIImage*)lightGrayColorImage
++ (UIImage*)add_lightGrayColorImage
 {
-    return [self resizableImageWithColor:[UIColor lightGrayColor]];
+    return [self add_resizableImageWithColor:[UIColor lightGrayColor]];
 }
 
-+ (UIImage*)whiteColorImage
++ (UIImage*)add_whiteColorImage
 {
-    return [self resizableImageWithColor:[UIColor whiteColor]];
+    return [self add_resizableImageWithColor:[UIColor whiteColor]];
 }
 
-+ (UIImage*)grayColorImage
++ (UIImage*)add_grayColorImage
 {
-    return [self resizableImageWithColor:[UIColor grayColor]];
+    return [self add_resizableImageWithColor:[UIColor grayColor]];
 }
 
-+ (UIImage*)redColorImage
++ (UIImage*)add_redColorImage
 {
-    return [self resizableImageWithColor:[UIColor redColor]];
+    return [self add_resizableImageWithColor:[UIColor redColor]];
 }
 
-+ (UIImage*)greenColorImage
++ (UIImage*)add_greenColorImage
 {
-    return [self resizableImageWithColor:[UIColor greenColor]];
+    return [self add_resizableImageWithColor:[UIColor greenColor]];
 }
 
-+ (UIImage*)blueColorImage
++ (UIImage*)add_blueColorImage
 {
-    return [self resizableImageWithColor:[UIColor blueColor]];
+    return [self add_resizableImageWithColor:[UIColor blueColor]];
 }
 
-+ (UIImage*)cyanColorImage
++ (UIImage*)add_cyanColorImage
 {
-    return [self resizableImageWithColor:[UIColor cyanColor]];
+    return [self add_resizableImageWithColor:[UIColor cyanColor]];
 }
 
-+ (UIImage*)yellowColorImage
++ (UIImage*)add_yellowColorImage
 {
-    return [self resizableImageWithColor:[UIColor yellowColor]];
+    return [self add_resizableImageWithColor:[UIColor yellowColor]];
 }
 
-+ (UIImage*)magentaColorImage
++ (UIImage*)add_magentaColorImage
 {
-    return [self resizableImageWithColor:[UIColor magentaColor]];
+    return [self add_resizableImageWithColor:[UIColor magentaColor]];
 }
 
-+ (UIImage*)orangeColorImage
++ (UIImage*)add_orangeColorImage
 {
-    return [self resizableImageWithColor:[UIColor orangeColor]];
+    return [self add_resizableImageWithColor:[UIColor orangeColor]];
 }
 
-+ (UIImage*)purpleColorImage
++ (UIImage*)add_purpleColorImage
 {
-    return [self resizableImageWithColor:[UIColor purpleColor]];
+    return [self add_resizableImageWithColor:[UIColor purpleColor]];
 }
 
-+ (UIImage*)brownColorImage
++ (UIImage*)add_brownColorImage
 {
-    return [self resizableImageWithColor:[UIColor brownColor]];
+    return [self add_resizableImageWithColor:[UIColor brownColor]];
 }
 
-+ (UIImage*)clearColorImage
++ (UIImage*)add_clearColorImage
 {
-    return [self resizableImageWithColor:[UIColor clearColor]];
+    return [self add_resizableImageWithColor:[UIColor clearColor]];
 }
 
-+ (UIImage*)imageNamed:(NSString *)name tintColor:(UIColor*)color style:(UIImageTintedStyle)tintStyle
++ (UIImage*)add_imageNamed:(NSString *)name tintColor:(UIColor*)color style:(ADDImageTintStyle)tintStyle
 {
     if (!name)
         return nil;
@@ -223,18 +223,18 @@ static NSString * kUIImageSize = @"kUIImageSize";
                                    kUIImageTintColor : color,
                                    kUIImageTintStyle : @(tintStyle)};
     
-    UIImage *tintedImage = [self mjz_cachedImageWithDescriptors:descriptors];
+    UIImage *tintedImage = [self add_cachedImageWithDescriptors:descriptors];
     
     if (!tintedImage)
     {
-        tintedImage = [image tintedImageWithColor:color style:tintStyle];
-        [self mjz_cacheImage:tintedImage withDescriptors:descriptors];
+        tintedImage = [image add_tintedImageWithColor:color style:tintStyle];
+        [self add_cacheImage:tintedImage withDescriptors:descriptors];
     }
     
     return tintedImage;
 }
 
-- (UIImage*)tintedImageWithColor:(UIColor*)color style:(UIImageTintedStyle)tintStyle
+- (UIImage*)add_tintedImageWithColor:(UIColor*)color style:(ADDImageTintStyle)tintStyle
 {
     if (!color)
         return self;
@@ -252,7 +252,7 @@ static NSString * kUIImageSize = @"kUIImageSize";
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
     // ---
 
-    if (tintStyle == UIImageTintedStyleKeepingAlpha)
+    if (tintStyle == ADDImageTintStyleKeepingAlpha)
     {
         CGContextSetBlendMode(context, kCGBlendModeNormal);
         CGContextDrawImage(context, rect, self.CGImage);
@@ -260,14 +260,14 @@ static NSString * kUIImageSize = @"kUIImageSize";
         [color setFill];
         CGContextFillRect(context, rect);
     }
-    else if (tintStyle == UIImageTintedStyleOverAlpha)
+    else if (tintStyle == ADDImageTintStyleOverAlpha)
     {
         [color setFill];
         CGContextFillRect(context, rect);
         CGContextSetBlendMode(context, kCGBlendModeNormal);
         CGContextDrawImage(context, rect, self.CGImage);
     }
-    else if (tintStyle == UIImageTintedStyleOverAlphaExtreme)
+    else if (tintStyle == ADDImageTintStyleOverAlphaExtreme)
     {
         [color setFill];
         CGContextFillRect(context, rect);
@@ -287,21 +287,21 @@ static NSString * kUIImageSize = @"kUIImageSize";
     return coloredImage;
 }
 
-- (UIImage*)imageWithRoundedBounds
+- (UIImage*)add_imageWithRoundedBounds
 {    
     CGSize size = self.size;
     CGFloat radius = MIN(size.width, size.height) / 2.0;
-    return [self imageWithCornerRadius:radius];
+    return [self add_imageWithCornerRadius:radius];
 }
 
-- (UIImage*)imageWithCornerRadius:(CGFloat)cornerRadius
+- (UIImage*)add_imageWithCornerRadius:(CGFloat)cornerRadius
 {
-    return [self imageWithCornerInset:UICornerInsetMake(cornerRadius, cornerRadius, cornerRadius, cornerRadius)];
+    return [self add_imageWithCornerInset:ADDCornerInsetMake(cornerRadius, cornerRadius, cornerRadius, cornerRadius)];
 }
 
-- (UIImage *)imageWithCornerInset:(UICornerInset)cornerInset
+- (UIImage *)add_imageWithCornerInset:(ADDCornerInset)cornerInset
 {
-    if (![self isValidCornerInset:cornerInset])
+    if (![self add_isValidCornerInset:cornerInset])
         return nil;
     
     CGFloat scale = self.scale;
@@ -344,7 +344,7 @@ static NSString * kUIImageSize = @"kUIImageSize";
     return newImage;
 }
 
-- (BOOL)isValidCornerInset:(UICornerInset)cornerInset
+- (BOOL)add_isValidCornerInset:(ADDCornerInset)cornerInset
 {
     CGSize size = self.size;
     
@@ -365,17 +365,17 @@ static NSString * kUIImageSize = @"kUIImageSize";
     return isValid;
 }
 
-- (UIImage*)imageAddingImage:(UIImage*)image
+- (UIImage*)add_imageAddingImage:(UIImage*)image
 {
     CGSize size1 = self.size;
     CGSize size2 = image.size;
     
     CGPoint offset = CGPointMake(floorf((size1.width - size2.width)/2.0),
                                  floorf((size1.height - size2.height)/2.0));
-    return [self imageAddingImage:image offset:offset];
+    return [self add_imageAddingImage:image offset:offset];
 }
 
-- (UIImage*)imageAddingImage:(UIImage*)image offset:(CGPoint)offset
+- (UIImage*)add_imageAddingImage:(UIImage*)image offset:(CGPoint)offset
 {
     CGSize size = self.size;
     CGFloat scale = self.scale;
@@ -400,7 +400,7 @@ static NSString * kUIImageSize = @"kUIImageSize";
 
 #pragma mark Private Methods
 
-+ (NSCache*)mjz_cache
++ (NSCache*)add_cache
 {
     if (!_imageCache)
         _imageCache = [[NSCache alloc] init];
@@ -408,18 +408,18 @@ static NSString * kUIImageSize = @"kUIImageSize";
     return _imageCache;
 }
 
-+ (UIImage*)mjz_cachedImageWithDescriptors:(NSDictionary*)descriptors
++ (UIImage*)add_cachedImageWithDescriptors:(NSDictionary*)descriptors
 {
-    return [[self mjz_cache] objectForKey:[self mjz_keyForImageWithDescriptors:descriptors]];
+    return [[self add_cache] objectForKey:[self add_keyForImageWithDescriptors:descriptors]];
 }
 
-+ (void)mjz_cacheImage:(UIImage*)image withDescriptors:(NSDictionary*)descriptors
++ (void)add_cacheImage:(UIImage*)image withDescriptors:(NSDictionary*)descriptors
 {
-    NSString *key = [self mjz_keyForImageWithDescriptors:descriptors];
-    [[self mjz_cache] setObject:image forKey:key];
+    NSString *key = [self add_keyForImageWithDescriptors:descriptors];
+    [[self add_cache] setObject:image forKey:key];
 }
 
-+ (NSString*)mjz_keyForImageWithDescriptors:(NSDictionary*)descriptors
++ (NSString*)add_keyForImageWithDescriptors:(NSDictionary*)descriptors
 {
     NSMutableString *string = [NSMutableString string];
     
@@ -436,19 +436,19 @@ static NSString * kUIImageSize = @"kUIImageSize";
     
     [string appendFormat:@"<%@:%ld>",kUIImageTintColor,(long)[[descriptors valueForKey:kUIImageTintColor] hash]];
     [string appendFormat:@"<%@:%ld>",kUIImageTintStyle,(long)[[descriptors valueForKey:kUIImageTintStyle] integerValue]];
-    [string appendFormat:@"<%@:%@>",kUIImageCornerInset,NSStringFromUICornerInset([[descriptors valueForKey:kUIImageCornerInset] UICornerInsetValue])];
-    [string appendFormat:@"<%@:%ld>",kUIImageGradientDirection,(long)[[descriptors valueForKey:kUIImageGradientDirection] integerValue]];
+    [string appendFormat:@"<%@:%@>",kUIImageCornerInset,NSStringFromADDCornerInset([[descriptors valueForKey:kUIImageCornerInset] ADDCornerInsetValue])];
+    [string appendFormat:@"<%@:%ld>",kADDImageGradientDirection,(long)[[descriptors valueForKey:kADDImageGradientDirection] integerValue]];
     
     return [string md5];
 }
 
-+ (UIImage*)mjz_imageWithColor:(UIColor*)color size:(CGSize)size cornerInset:(UICornerInset)cornerInset saveInCache:(BOOL)save
++ (UIImage*)add_imageWithColor:(UIColor*)color size:(CGSize)size cornerInset:(ADDCornerInset)cornerInset saveInCache:(BOOL)save
 {
     NSDictionary *descriptors =  @{kUIImageColors : @[color],
                                    kUIImageSize : [NSValue valueWithCGSize:size],
-                                   kUIImageCornerInset : [NSValue valueWithUICornerInset:cornerInset]};
+                                   kUIImageCornerInset : [NSValue valueWithADDCornerInset:cornerInset]};
 
-    UIImage *image = [self mjz_cachedImageWithDescriptors:descriptors];
+    UIImage *image = [self add_cachedImageWithDescriptors:descriptors];
     
     if (image)
         return image;
@@ -497,18 +497,18 @@ static NSString * kUIImageSize = @"kUIImageSize";
     CGImageRelease(bitmapContext);
     
     if (save)
-        [self mjz_cacheImage:theImage withDescriptors:descriptors];
+        [self add_cacheImage:theImage withDescriptors:descriptors];
     
     return theImage;
 }
 
-+ (UIImage*)imageWithGradient:(NSArray*)colors size:(CGSize)size direction:(UIImageGradientDirection)direction
++ (UIImage*)add_imageWithGradient:(NSArray*)colors size:(CGSize)size direction:(ADDImageGradientDirection)direction
 {
     NSDictionary *descriptors = @{kUIImageColors: colors,
                                   kUIImageSize: [NSValue valueWithCGSize:size],
-                                  kUIImageGradientDirection: @(direction)};
+                                  kADDImageGradientDirection: @(direction)};
     
-    UIImage *image = [self mjz_cachedImageWithDescriptors:descriptors];
+    UIImage *image = [self add_cachedImageWithDescriptors:descriptors];
     if (image)
         return image;
     
@@ -530,19 +530,19 @@ static NSString * kUIImageSize = @"kUIImageSize";
     CGPoint startPoint = CGPointZero;
     CGPoint endPoint = CGPointZero;
     
-    if (direction == UIImageGradientDirectionVertical)
+    if (direction == ADDImageGradientDirectionVertical)
     {
         endPoint = CGPointMake(0, rect.size.height);
     }
-    else if (direction == UIImageGradientDirectionHorizontal)
+    else if (direction == ADDImageGradientDirectionHorizontal)
     {
         endPoint = CGPointMake(rect.size.width, 0);
     }
-    else if (direction == UIImageGradientDirectionLeftSlanted)
+    else if (direction == ADDImageGradientDirectionLeftSlanted)
     {
         endPoint = CGPointMake(rect.size.width, rect.size.height);
     }
-    else if (direction == UIImageGradientDirectionRightSlanted)
+    else if (direction == ADDImageGradientDirectionRightSlanted)
     {
         startPoint = CGPointMake(rect.size.width, 0);
         endPoint = CGPointMake(0, rect.size.height);
@@ -556,24 +556,24 @@ static NSString * kUIImageSize = @"kUIImageSize";
     CGGradientRelease(gradient);
     CGColorSpaceRelease(space);
     
-    [self mjz_cacheImage:image withDescriptors:descriptors];
+    [self add_cacheImage:image withDescriptors:descriptors];
     
     return image;
 }
 
-+ (UIImage*)resizableImageWithGradient:(NSArray*)colors size:(CGSize)size direction:(UIImageGradientDirection)direction
++ (UIImage*)add_resizableImageWithGradient:(NSArray*)colors size:(CGSize)size direction:(ADDImageGradientDirection)direction
 {
-    if ((size.width == 0.0f && direction == UIImageGradientDirectionHorizontal) ||
-        (size.height == 0.0f && direction == UIImageGradientDirectionVertical) ||
+    if ((size.width == 0.0f && direction == ADDImageGradientDirectionHorizontal) ||
+        (size.height == 0.0f && direction == ADDImageGradientDirectionVertical) ||
         (size.height == 0.0f && size.width == 0.0f))
         return nil;
     
     NSDictionary *descriptors = @{kUIImageColors: colors,
                                   kUIImageSize: [NSValue valueWithCGSize:size],
-                                  kUIImageGradientDirection: @(direction),
+                                  kADDImageGradientDirection: @(direction),
                                   kUIImageResizableImage: @YES};
     
-    UIImage *image = [self mjz_cachedImageWithDescriptors:descriptors];
+    UIImage *image = [self add_cachedImageWithDescriptors:descriptors];
     if (image)
         return image;
     
@@ -581,12 +581,12 @@ static NSString * kUIImageSize = @"kUIImageSize";
     
     UIEdgeInsets insets = UIEdgeInsetsZero;
     
-    if (direction == UIImageGradientDirectionVertical)
+    if (direction == ADDImageGradientDirectionVertical)
     {
         imageSize.height = size.height;
         insets = UIEdgeInsetsMake(0.0f, 1.0f, 0.0f, 1.0f);
     }
-    else if (direction == UIImageGradientDirectionHorizontal)
+    else if (direction == ADDImageGradientDirectionHorizontal)
     {
         imageSize.width = size.width;
         insets = UIEdgeInsetsMake(1.0f, 0.0f, 1.0f, 0.0f);
@@ -598,30 +598,30 @@ static NSString * kUIImageSize = @"kUIImageSize";
         insets = UIEdgeInsetsMake(1.0f, 1.0f, 1.0f, 1.0f);
     }
     
-    return [[self imageWithGradient:colors size:imageSize direction:direction] resizableImageWithCapInsets:insets];
+    return [[self add_imageWithGradient:colors size:imageSize direction:direction] resizableImageWithCapInsets:insets];
 }
 
 @end
 
 #pragma mark - Categories
 
-@implementation NSValue (NSValueUICornerInsetExtensions)
+@implementation NSValue (NSValueADDCornerInsetExtensions)
 
-+ (NSValue*)valueWithUICornerInset:(UICornerInset)cornerInset
++ (NSValue*)valueWithADDCornerInset:(ADDCornerInset)cornerInset
 {
     CGRect rect = CGRectMake(cornerInset.topLeft, cornerInset.topRight, cornerInset.bottomLeft, cornerInset.bottomRight);
     return [NSValue valueWithCGRect:rect];
     
-    //    UICornerInset inset = cornerInset;
-    //    return [[NSValue alloc] initWithBytes:&inset objCType:@encode(struct __UICornerInset)];
+    //    ADDCornerInset inset = cornerInset;
+    //    return [[NSValue alloc] initWithBytes:&inset objCType:@encode(struct __ADDCornerInset)];
 }
 
-- (UICornerInset)UICornerInsetValue
+- (ADDCornerInset)ADDCornerInsetValue
 {
     CGRect rect = [self CGRectValue];
-    return UICornerInsetMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+    return ADDCornerInsetMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
     
-    //    UICornerInset cornerInset;
+    //    ADDCornerInset cornerInset;
     //    [self getValue:&cornerInset];
     //    return cornerInset;
 }

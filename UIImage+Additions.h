@@ -24,29 +24,29 @@
 
 #import <UIKit/UIKit.h>
 
-typedef struct __UICornerInset
+typedef struct __ADDCornerInset
 {
     CGFloat topLeft;
     CGFloat topRight;
     CGFloat bottomLeft;
     CGFloat bottomRight;
-} UICornerInset;
+} ADDCornerInset;
 
-UIKIT_EXTERN const UICornerInset UICornerInsetZero;
+UIKIT_EXTERN const ADDCornerInset ADDCornerInsetZero;
 
-UIKIT_STATIC_INLINE UICornerInset UICornerInsetMake(CGFloat topLeft, CGFloat topRight, CGFloat bottomLeft, CGFloat bottomRight)
+UIKIT_STATIC_INLINE ADDCornerInset ADDCornerInsetMake(CGFloat topLeft, CGFloat topRight, CGFloat bottomLeft, CGFloat bottomRight)
 {
-    UICornerInset cornerInset = {topLeft, topRight, bottomLeft, bottomRight};
+    ADDCornerInset cornerInset = {topLeft, topRight, bottomLeft, bottomRight};
     return cornerInset;
 }
 
-UIKIT_STATIC_INLINE UICornerInset UICornerInsetMakeWithRadius(CGFloat radius)
+UIKIT_STATIC_INLINE ADDCornerInset ADDCornerInsetMakeWithRadius(CGFloat radius)
 {
-    UICornerInset cornerInset = {radius, radius, radius, radius};
+    ADDCornerInset cornerInset = {radius, radius, radius, radius};
     return cornerInset;
 }
 
-UIKIT_STATIC_INLINE BOOL UICornerInsetEqualToCornerInset(UICornerInset cornerInset1, UICornerInset cornerInset2)
+UIKIT_STATIC_INLINE BOOL ADDCornerInsetEqualToCornerInset(ADDCornerInset cornerInset1, ADDCornerInset cornerInset2)
 {
     return
     cornerInset1.topLeft == cornerInset2.topLeft &&
@@ -55,54 +55,54 @@ UIKIT_STATIC_INLINE BOOL UICornerInsetEqualToCornerInset(UICornerInset cornerIns
     cornerInset1.bottomRight == cornerInset2.bottomRight;
 }
 
-FOUNDATION_EXTERN NSString* NSStringFromUICornerInset(UICornerInset cornerInset);
+FOUNDATION_EXTERN NSString* NSStringFromADDCornerInset(ADDCornerInset cornerInset);
 
 /**
  * The image tinting styles.
  **/
-typedef enum __UIImageTintedStyle
+typedef enum __ADDImageTintStyle
 {
     /**
      * Keep transaprent pixels (alpha == 0) and tint all other pixels.
      **/
-    UIImageTintedStyleKeepingAlpha      = 1,
+    ADDImageTintStyleKeepingAlpha      = 1,
     
     /**
      * Keep non transparent pixels and tint only those that are translucid.
      **/
-    UIImageTintedStyleOverAlpha         = 2,
+    ADDImageTintStyleOverAlpha         = 2,
     
     /**
      * Remove (turn to transparent) non transparent pixels and tint only those that are translucid.
      **/
-    UIImageTintedStyleOverAlphaExtreme  = 3,
-} UIImageTintedStyle;
+    ADDImageTintStyleOverAlphaExtreme  = 3,
+} ADDImageTintStyle;
 
 /**
  * Defines the gradient direction.
  **/
-typedef enum __UIImageGradientDirection
+typedef enum __ADDImageGradientDirection
 {
     /**
      * Vertical direction.
      **/
-    UIImageGradientDirectionVertical    = 1,
+    ADDImageGradientDirectionVertical    = 1,
     
     /**
      * Horizontal direction.
      **/
-    UIImageGradientDirectionHorizontal  = 2,
+    ADDImageGradientDirectionHorizontal  = 2,
     
     /**
      * Left slanted direction.
      **/
-    UIImageGradientDirectionLeftSlanted = 3,
+    ADDImageGradientDirectionLeftSlanted = 3,
     
     /**
      * Right slanted direction.
      **/
-    UIImageGradientDirectionRightSlanted = 4
-} UIImageGradientDirection;
+    ADDImageGradientDirectionRightSlanted = 4
+} ADDImageGradientDirection;
 
 /**
  * This category add methods to `UIImage` to create and modify in runtime images.
@@ -121,7 +121,7 @@ typedef enum __UIImageGradientDirection
  * @return An image instance for the given color.
  * @discussion This method uses the screen density of the device to generate an appropiate pixel density image.
  **/
-+ (UIImage*)imageWithColor:(UIColor*)color;
++ (UIImage*)add_imageWithColor:(UIColor*)color;
 
 /**
  * Creates an image of the given size and the given color.
@@ -130,7 +130,7 @@ typedef enum __UIImageGradientDirection
  * @return An image instance.
  * @discussion This method uses the screen density of the device to generate an appropiate pixel density image.
  **/
-+ (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size;
++ (UIImage*)add_imageWithColor:(UIColor*)color size:(CGSize)size;
 
 /**
  * Creates an image of the given size and the given color with a corner radius.
@@ -140,7 +140,7 @@ typedef enum __UIImageGradientDirection
  * @return An image instance.
  * @discussion This method uses the screen density of the device to generate an appropiate pixel density image.
  **/
-+ (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size cornerRadius:(CGFloat)cornerRadius;
++ (UIImage*)add_imageWithColor:(UIColor*)color size:(CGSize)size cornerRadius:(CGFloat)cornerRadius;
 
 /**
  * Creates an image of the given size and the given color with a corner inset.
@@ -150,7 +150,7 @@ typedef enum __UIImageGradientDirection
  * @return An image instance.
  * @discussion This method uses the screen density of the device to generate an appropiate pixel density image.
  **/
-+ (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size cornerInset:(UICornerInset)cornerInset;
++ (UIImage*)add_imageWithColor:(UIColor*)color size:(CGSize)size cornerInset:(ADDCornerInset)cornerInset;
 
 /** *************************************************** **
  * @name Create rezisable images from colors
@@ -162,7 +162,7 @@ typedef enum __UIImageGradientDirection
  * @return An image instance.
  * @discussion This method uses the screen density of the device to generate an appropiate pixel density image. Also, the generated image is as small as possible.
  **/
-+ (UIImage*)resizableImageWithColor:(UIColor*)color;
++ (UIImage*)add_resizableImageWithColor:(UIColor*)color;
 
 /**
  * Creates a resizable image of the given color with a corner radius.
@@ -171,7 +171,7 @@ typedef enum __UIImageGradientDirection
  * @return An image instance.
  * @discussion This method uses the screen density of the device to generate an appropiate pixel density image. Also, the generated image is as small as possible.
  **/
-+ (UIImage*)resizableImageWithColor:(UIColor*)color cornerRadius:(CGFloat)cornerRadius;
++ (UIImage*)add_resizableImageWithColor:(UIColor*)color cornerRadius:(CGFloat)cornerRadius;
 
 /**
  * Creates a resizable image of the given color with a corner inset.
@@ -180,97 +180,97 @@ typedef enum __UIImageGradientDirection
  * @return A new image instance.
  * @discussion This method uses the screen density of the device to generate an appropiate pixel density image. Also, the generated image is as small as possible.
  **/
-+ (UIImage*)resizableImageWithColor:(UIColor*)color cornerInset:(UICornerInset)cornerInset;
++ (UIImage*)add_resizableImageWithColor:(UIColor*)color cornerInset:(ADDCornerInset)cornerInset;
 
 /**
  * Returns a black resizable image.
  * @return An image instance.
  **/
-+ (UIImage*)blackColorImage;
++ (UIImage*)add_blackColorImage;
 
 /**
  * Returns a dark gray resizable image.
  * @return An image instance.
  **/
-+ (UIImage*)darkGrayColorImage;
++ (UIImage*)add_darkGrayColorImage;
 
 /**
  * Returns a light gray resizable image.
  * @return An image instance.
  **/
-+ (UIImage*)lightGrayColorImage;
++ (UIImage*)add_lightGrayColorImage;
 
 /**
  * Returns a white resizable image.
  * @return An image instance.
  **/
-+ (UIImage*)whiteColorImage;
++ (UIImage*)add_whiteColorImage;
 
 /**
  * Returns a gray resizable image.
  * @return An image instance.
  **/
-+ (UIImage*)grayColorImage;
++ (UIImage*)add_grayColorImage;
 
 /**
  * Returns a red resizable image.
  * @return An image instance.
  **/
-+ (UIImage*)redColorImage;
++ (UIImage*)add_redColorImage;
 
 /**
  * Returns a green resizable image.
  * @return An image instance.
  **/
-+ (UIImage*)greenColorImage;
++ (UIImage*)add_greenColorImage;
 
 /**
  * Returns a blue resizable image.
  * @return An image instance.
  **/
-+ (UIImage*)blueColorImage;
++ (UIImage*)add_blueColorImage;
 
 /**
  * Returns a cyan resizable image.
  * @return An image instance.
  **/
-+ (UIImage*)cyanColorImage;
++ (UIImage*)add_cyanColorImage;
 
 /**
  * Returns a yellow resizable image.
  * @return An image instance.
  **/
-+ (UIImage*)yellowColorImage;
++ (UIImage*)add_yellowColorImage;
 
 /**
  * Returns a magenta resizable image.
  * @return An image instance.
  **/
-+ (UIImage*)magentaColorImage;
++ (UIImage*)add_magentaColorImage;
 
 /**
  * Returns a orange resizable image.
  * @return An image instance.
  **/
-+ (UIImage*)orangeColorImage;
++ (UIImage*)add_orangeColorImage;
 
 /**
  * Returns a purple resizable image.
  * @return An image instance.
  **/
-+ (UIImage*)purpleColorImage;
++ (UIImage*)add_purpleColorImage;
 
 /**
  * Returns a brown resizable image.
  * @return An image instance.
  **/
-+ (UIImage*)brownColorImage;
++ (UIImage*)add_brownColorImage;
 
 /**
  * Returns a transparent (clear color) resizable image.
  * @return An image instance.
  **/
-+ (UIImage*)clearColorImage;
++ (UIImage*)add_clearColorImage;
 
 /** *************************************************** **
  * @name Tinting Images
@@ -284,7 +284,7 @@ typedef enum __UIImageGradientDirection
  * @return An image instance.
  * @discussion Images are cached in dynamic memory.
  **/
-+ (UIImage*)imageNamed:(NSString *)name tintColor:(UIColor*)color style:(UIImageTintedStyle)tintStyle;
++ (UIImage*)add_imageNamed:(NSString *)name tintColor:(UIColor*)color style:(ADDImageTintStyle)tintStyle;
 
 /**
  * Creates an image object associated with the specified filename and tints it.
@@ -293,7 +293,7 @@ typedef enum __UIImageGradientDirection
  * @param tintStyle The tint style.
  * @return An image instance.
  **/
-- (UIImage*)tintedImageWithColor:(UIColor*)color style:(UIImageTintedStyle)tintStyle;
+- (UIImage*)add_tintedImageWithColor:(UIColor*)color style:(ADDImageTintStyle)tintStyle;
 
 /** *************************************************** **
  * @name Rounding corners
@@ -304,7 +304,7 @@ typedef enum __UIImageGradientDirection
  * @return An image instance.
  * @discussion The image created has the maximum possible corner radius (so if it is squared, it returns a cirled image).
  **/
-- (UIImage*)imageWithRoundedBounds;
+- (UIImage*)add_imageWithRoundedBounds;
 
 /**
  * Creates and returns an image with a corner radius.
@@ -312,7 +312,7 @@ typedef enum __UIImageGradientDirection
  * @return An image instance.
  * @discussion This method may return nil if the corner radius is not valid (too big) for the given image.
  **/
-- (UIImage*)imageWithCornerRadius:(CGFloat)cornerRadius;
+- (UIImage*)add_imageWithCornerRadius:(CGFloat)cornerRadius;
 
 /**
  * Creates and returns an image with a corner inset.
@@ -320,13 +320,13 @@ typedef enum __UIImageGradientDirection
  * @return An image instance.
  * @discussion This method may return nil if the corner inset is not valid for the given image.
  **/
-- (UIImage*)imageWithCornerInset:(UICornerInset)cornerInset;
+- (UIImage*)add_imageWithCornerInset:(ADDCornerInset)cornerInset;
 
 /**
  * Returns YES is the corner inset is valid for the current image. Otherwise returns NO.
  * @return A boolean indicating if the corner inset is valid for the current image.
  **/
-- (BOOL)isValidCornerInset:(UICornerInset)cornerInset;
+- (BOOL)add_isValidCornerInset:(ADDCornerInset)cornerInset;
 
 /** *************************************************** **
  * @name Drawing image on image
@@ -337,7 +337,7 @@ typedef enum __UIImageGradientDirection
  * @param image The image to add.
  * @discussion The image being added is centered in the middle of the current image and the returned image has the same size as the current image.
  **/
-- (UIImage*)imageAddingImage:(UIImage*)image;
+- (UIImage*)add_imageAddingImage:(UIImage*)image;
 
 /**
  * Creates and returns a new image adding to the current image.
@@ -345,7 +345,7 @@ typedef enum __UIImageGradientDirection
  * @param offset The offset from the top-left corner that indicates where to add the image.
  * @discussion The returned image has the same size as the current image.
  **/
-- (UIImage*)imageAddingImage:(UIImage*)image offset:(CGPoint)offset;
+- (UIImage*)add_imageAddingImage:(UIImage*)image offset:(CGPoint)offset;
 
 /** *************************************************** **
  * @name Gradient image generation
@@ -358,7 +358,7 @@ typedef enum __UIImageGradientDirection
  * @param dicrection The gradient direction.
  * @return An image instance.
  **/
-+ (UIImage*)imageWithGradient:(NSArray*)colors size:(CGSize)size direction:(UIImageGradientDirection)direction;
++ (UIImage*)add_imageWithGradient:(NSArray*)colors size:(CGSize)size direction:(ADDImageGradientDirection)direction;
 
 /**
  * Generates an gradient resizable image from the given colors.
@@ -367,28 +367,28 @@ typedef enum __UIImageGradientDirection
  * @param dicrection The gradient direction.
  * @return An image instance.
  **/
-+ (UIImage*)resizableImageWithGradient:(NSArray*)colors size:(CGSize)size direction:(UIImageGradientDirection)direction;
++ (UIImage*)add_resizableImageWithGradient:(NSArray*)colors size:(CGSize)size direction:(ADDImageGradientDirection)direction;
 
 @end
 
 #pragma mark - Categories
 
 /**
- * Adding `UICornerInset` support to `NSValue`.
+ * Adding `ADDCornerInset` support to `NSValue`.
  **/
-@interface NSValue (NSValueUICornerInsetExtensions)
+@interface NSValue (NSValueADDCornerInsetExtensions)
 
 /**
- * Creates a `NSValue` from a `UICornerInset`.
+ * Creates a `NSValue` from a `ADDCornerInset`.
  * @param cornerInset The corner inset.
  * @return A `NSValue` representation of the corner inset.
  **/
-+ (NSValue*)valueWithUICornerInset:(UICornerInset)cornerInset;
++ (NSValue*)valueWithADDCornerInset:(ADDCornerInset)cornerInset;
 
 /**
- * Retreives the `UICornerInset` value.
+ * Retreives the `ADDCornerInset` value.
  * @return A the corner inset value.
  **/
-- (UICornerInset)UICornerInsetValue;
+- (ADDCornerInset)ADDCornerInsetValue;
 
 @end
