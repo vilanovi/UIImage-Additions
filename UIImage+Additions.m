@@ -89,7 +89,7 @@ static NSString * kUIImageSize = @"kUIImageSize";
 
 + (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size cornerInset:(UICornerInset)cornerInset
 {
-    return [self _imageWithColor:color size:size cornerInset:cornerInset saveInCache:YES];
+    return [self mjz_imageWithColor:color size:size cornerInset:cornerInset saveInCache:YES];
 }
 
 + (UIImage*)resizableImageWithColor:(UIColor*)color
@@ -111,7 +111,7 @@ static NSString * kUIImageSize = @"kUIImageSize";
                                    kUIImageResizableImage : @YES,
                                    kUIImageCornerInset : [NSValue valueWithUICornerInset:cornerInset]};
     
-    UIImage *image = [self _cachedImageWithDescriptors:descriptors];
+    UIImage *image = [self mjz_cachedImageWithDescriptors:descriptors];
     
     if (image)
         return image;
@@ -126,7 +126,7 @@ static NSString * kUIImageSize = @"kUIImageSize";
     
     image = [[self imageWithColor:color size:size cornerInset:cornerInset] resizableImageWithCapInsets:capInsets];
     
-    [self _cacheImage:image withDescriptors:descriptors];
+    [self mjz_cacheImage:image withDescriptors:descriptors];
     
     return image;
 }
@@ -223,12 +223,12 @@ static NSString * kUIImageSize = @"kUIImageSize";
                                    kUIImageTintColor : color,
                                    kUIImageTintStyle : @(tintStyle)};
     
-    UIImage *tintedImage = [self _cachedImageWithDescriptors:descriptors];
+    UIImage *tintedImage = [self mjz_cachedImageWithDescriptors:descriptors];
     
     if (!tintedImage)
     {
         tintedImage = [image tintedImageWithColor:color style:tintStyle];
-        [self _cacheImage:tintedImage withDescriptors:descriptors];
+        [self mjz_cacheImage:tintedImage withDescriptors:descriptors];
     }
     
     return tintedImage;
@@ -400,7 +400,7 @@ static NSString * kUIImageSize = @"kUIImageSize";
 
 #pragma mark Private Methods
 
-+ (NSCache*)_cache
++ (NSCache*)mjz_cache
 {
     if (!_imageCache)
         _imageCache = [[NSCache alloc] init];
@@ -408,18 +408,18 @@ static NSString * kUIImageSize = @"kUIImageSize";
     return _imageCache;
 }
 
-+ (UIImage*)_cachedImageWithDescriptors:(NSDictionary*)descriptors
++ (UIImage*)mjz_cachedImageWithDescriptors:(NSDictionary*)descriptors
 {
-    return [[self _cache] objectForKey:[self _keyForImageWithDescriptors:descriptors]];
+    return [[self mjz_cache] objectForKey:[self mjz_keyForImageWithDescriptors:descriptors]];
 }
 
-+ (void)_cacheImage:(UIImage*)image withDescriptors:(NSDictionary*)descriptors
++ (void)mjz_cacheImage:(UIImage*)image withDescriptors:(NSDictionary*)descriptors
 {
-    NSString *key = [self _keyForImageWithDescriptors:descriptors];
-    [[self _cache] setObject:image forKey:key];
+    NSString *key = [self mjz_keyForImageWithDescriptors:descriptors];
+    [[self mjz_cache] setObject:image forKey:key];
 }
 
-+ (NSString*)_keyForImageWithDescriptors:(NSDictionary*)descriptors
++ (NSString*)mjz_keyForImageWithDescriptors:(NSDictionary*)descriptors
 {
     NSMutableString *string = [NSMutableString string];
     
@@ -442,13 +442,13 @@ static NSString * kUIImageSize = @"kUIImageSize";
     return [string md5];
 }
 
-+ (UIImage*)_imageWithColor:(UIColor*)color size:(CGSize)size cornerInset:(UICornerInset)cornerInset saveInCache:(BOOL)save
++ (UIImage*)mjz_imageWithColor:(UIColor*)color size:(CGSize)size cornerInset:(UICornerInset)cornerInset saveInCache:(BOOL)save
 {
     NSDictionary *descriptors =  @{kUIImageColors : @[color],
                                    kUIImageSize : [NSValue valueWithCGSize:size],
                                    kUIImageCornerInset : [NSValue valueWithUICornerInset:cornerInset]};
 
-    UIImage *image = [self _cachedImageWithDescriptors:descriptors];
+    UIImage *image = [self mjz_cachedImageWithDescriptors:descriptors];
     
     if (image)
         return image;
@@ -497,19 +497,18 @@ static NSString * kUIImageSize = @"kUIImageSize";
     CGImageRelease(bitmapContext);
     
     if (save)
-        [self _cacheImage:theImage withDescriptors:descriptors];
+        [self mjz_cacheImage:theImage withDescriptors:descriptors];
     
     return theImage;
 }
 
 + (UIImage*)imageWithGradient:(NSArray*)colors size:(CGSize)size direction:(UIImageGradientDirection)direction
 {
-    
     NSDictionary *descriptors = @{kUIImageColors: colors,
                                   kUIImageSize: [NSValue valueWithCGSize:size],
                                   kUIImageGradientDirection: @(direction)};
     
-    UIImage *image = [self _cachedImageWithDescriptors:descriptors];
+    UIImage *image = [self mjz_cachedImageWithDescriptors:descriptors];
     if (image)
         return image;
     
@@ -532,14 +531,17 @@ static NSString * kUIImageSize = @"kUIImageSize";
     CGPoint endPoint = CGPointZero;
     
     if (direction == UIImageGradientDirectionVertical)
+    {
         endPoint = CGPointMake(0, rect.size.height);
-    
+    }
     else if (direction == UIImageGradientDirectionHorizontal)
+    {
         endPoint = CGPointMake(rect.size.width, 0);
-    
+    }
     else if (direction == UIImageGradientDirectionLeftSlanted)
+    {
         endPoint = CGPointMake(rect.size.width, rect.size.height);
-
+    }
     else if (direction == UIImageGradientDirectionRightSlanted)
     {
         startPoint = CGPointMake(rect.size.width, 0);
@@ -554,7 +556,7 @@ static NSString * kUIImageSize = @"kUIImageSize";
     CGGradientRelease(gradient);
     CGColorSpaceRelease(space);
     
-    [self _cacheImage:image withDescriptors:descriptors];
+    [self mjz_cacheImage:image withDescriptors:descriptors];
     
     return image;
 }
@@ -571,7 +573,7 @@ static NSString * kUIImageSize = @"kUIImageSize";
                                   kUIImageGradientDirection: @(direction),
                                   kUIImageResizableImage: @YES};
     
-    UIImage *image = [self _cachedImageWithDescriptors:descriptors];
+    UIImage *image = [self mjz_cachedImageWithDescriptors:descriptors];
     if (image)
         return image;
     
@@ -603,9 +605,9 @@ static NSString * kUIImageSize = @"kUIImageSize";
 
 #pragma mark - Categories
 
-@implementation NSValue (UICornerInset)
-+ (NSValue*)valueWithUICornerInset:(UICornerInset)cornerInset
+@implementation NSValue (NSValueUICornerInsetExtensions)
 
++ (NSValue*)valueWithUICornerInset:(UICornerInset)cornerInset
 {
     CGRect rect = CGRectMake(cornerInset.topLeft, cornerInset.topRight, cornerInset.bottomLeft, cornerInset.bottomRight);
     return [NSValue valueWithCGRect:rect];
