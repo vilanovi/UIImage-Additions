@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D266A6EC1A61D209007E64AD /* UIImage+Additions.podspec in Resources */ = {isa = PBXBuildFile; fileRef = D266A6EB1A61D209007E64AD /* UIImage+Additions.podspec */; };
+		D266A6EC1A61D209007E64AD /* UIImage+Additions.podspec.json in Resources */ = {isa = PBXBuildFile; fileRef = D266A6EB1A61D209007E64AD /* UIImage+Additions.podspec.json */; };
 		D266A6EE1A61D211007E64AD /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = D266A6ED1A61D211007E64AD /* README.md */; };
 		D266A6F01A61D217007E64AD /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = D266A6EF1A61D217007E64AD /* LICENSE.txt */; };
 		D2BDE5551A61C6E60032084E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BDE5541A61C6E60032084E /* main.m */; };
@@ -31,7 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D266A6EB1A61D209007E64AD /* UIImage+Additions.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "UIImage+Additions.podspec"; path = "../../UIImage+Additions.podspec"; sourceTree = "<group>"; };
+		D266A6EB1A61D209007E64AD /* UIImage+Additions.podspec.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "UIImage+Additions.podspec.json"; path = "../../UIImage+Additions.podspec.json"; sourceTree = "<group>"; };
 		D266A6ED1A61D211007E64AD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../README.md; sourceTree = "<group>"; };
 		D266A6EF1A61D217007E64AD /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.txt; path = ../../LICENSE.txt; sourceTree = "<group>"; };
 		D2BDE54F1A61C6E60032084E /* UIImageAdditions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UIImageAdditions.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,7 +98,7 @@
 				D2BDE5791A61C7090032084E /* UIImage+Additions.m */,
 				D266A6ED1A61D211007E64AD /* README.md */,
 				D266A6EF1A61D217007E64AD /* LICENSE.txt */,
-				D266A6EB1A61D209007E64AD /* UIImage+Additions.podspec */,
+				D266A6EB1A61D209007E64AD /* UIImage+Additions.podspec.json */,
 				D2BDE55C1A61C6E60032084E /* Main.storyboard */,
 				D2BDE55F1A61C6E60032084E /* Images.xcassets */,
 				D2BDE5611A61C6E60032084E /* LaunchScreen.xib */,
@@ -213,7 +213,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D266A6EC1A61D209007E64AD /* UIImage+Additions.podspec in Resources */,
+				D266A6EC1A61D209007E64AD /* UIImage+Additions.podspec.json in Resources */,
 				D2BDE55E1A61C6E60032084E /* Main.storyboard in Resources */,
 				D2BDE5631A61C6E60032084E /* LaunchScreen.xib in Resources */,
 				D266A6F01A61D217007E64AD /* LICENSE.txt in Resources */,
