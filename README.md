@@ -1,3 +1,6 @@
+[![Version](https://cocoapod-badges.herokuapp.com/v/Motis/badge.png)](http://cocoadocs.org/docsets/Motis) 
+[![Platform](https://cocoapod-badges.herokuapp.com/p/Motis/badge.png)](http://cocoadocs.org/docsets/Motis) 
+
 UIImage-Additions
 =================
 
