@@ -1,6 +1,8 @@
 [![Version](https://cocoapod-badges.herokuapp.com/v/UIImage+Additions/badge.png)](http://cocoadocs.org/docsets/UIImage+Additions) 
 [![Platform](https://cocoapod-badges.herokuapp.com/p/UIImage+Additions/badge.png)](http://cocoadocs.org/docsets/UIImage+Additions) 
 
+![UIImage+Additions](https://raw.githubusercontent.com/vilanovi/UIImage-Additions/master/UIImageAdditionsLogo.jpg)
+
 UIImage-Additions
 =================
 
