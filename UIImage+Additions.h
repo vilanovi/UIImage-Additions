@@ -119,7 +119,7 @@ typedef enum __ADDImageGradientDirection
  * Creates an image of 1x1 points of the given color.
  * @param color The color.
  * @return An image instance for the given color.
- * @discussion This method uses the screen density of the device to generate an appropiate pixel density image.
+ * @discussion This method uses the screen density of the device to generate an appropiate pixel density image.
  **/
 + (UIImage*)add_imageWithColor:(UIColor*)color;
 
@@ -128,7 +128,7 @@ typedef enum __ADDImageGradientDirection
  * @param color The color.
  * @param size The size.
  * @return An image instance.
- * @discussion This method uses the screen density of the device to generate an appropiate pixel density image.
+ * @discussion This method uses the screen density of the device to generate an appropiate pixel density image.
  **/
 + (UIImage*)add_imageWithColor:(UIColor*)color size:(CGSize)size;
 
@@ -138,7 +138,7 @@ typedef enum __ADDImageGradientDirection
  * @param size The size.
  * @param cornerRadius The corner radius.
  * @return An image instance.
- * @discussion This method uses the screen density of the device to generate an appropiate pixel density image.
+ * @discussion This method uses the screen density of the device to generate an appropiate pixel density image.
  **/
 + (UIImage*)add_imageWithColor:(UIColor*)color size:(CGSize)size cornerRadius:(CGFloat)cornerRadius;
 
@@ -148,7 +148,7 @@ typedef enum __ADDImageGradientDirection
  * @param size The size.
  * @param cornerInset The corner inset.
  * @return An image instance.
- * @discussion This method uses the screen density of the device to generate an appropiate pixel density image.
+ * @discussion This method uses the screen density of the device to generate an appropiate pixel density image.
  **/
 + (UIImage*)add_imageWithColor:(UIColor*)color size:(CGSize)size cornerInset:(ADDCornerInset)cornerInset;
 
@@ -160,7 +160,7 @@ typedef enum __ADDImageGradientDirection
  * Creates a resizable image of the given color.
  * @param color The color.
  * @return An image instance.
- * @discussion This method uses the screen density of the device to generate an appropiate pixel density image. Also, the generated image is as small as possible.
+ * @discussion This method uses the screen density of the device to generate an appropiate pixel density image. Also, the generated image is as small as possible.
  **/
 + (UIImage*)add_resizableImageWithColor:(UIColor*)color;
 
@@ -169,7 +169,7 @@ typedef enum __ADDImageGradientDirection
  * @param color The color.
  * @param cornerRadius The corner radius.
  * @return An image instance.
- * @discussion This method uses the screen density of the device to generate an appropiate pixel density image. Also, the generated image is as small as possible.
+ * @discussion This method uses the screen density of the device to generate an appropiate pixel density image. Also, the generated image is as small as possible.
  **/
 + (UIImage*)add_resizableImageWithColor:(UIColor*)color cornerRadius:(CGFloat)cornerRadius;
 
@@ -178,7 +178,7 @@ typedef enum __ADDImageGradientDirection
  * @param color The color.
  * @param cornerInset The corner inset.
  * @return A new image instance.
- * @discussion This method uses the screen density of the device to generate an appropiate pixel density image. Also, the generated image is as small as possible.
+ * @discussion This method uses the screen density of the device to generate an appropiate pixel density image. Also, the generated image is as small as possible.
  **/
 + (UIImage*)add_resizableImageWithColor:(UIColor*)color cornerInset:(ADDCornerInset)cornerInset;
 
