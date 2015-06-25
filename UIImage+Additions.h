@@ -369,6 +369,25 @@ typedef enum __ADDImageGradientDirection
  **/
 + (UIImage*)add_resizableImageWithGradient:(NSArray*)colors size:(CGSize)size direction:(ADDImageGradientDirection)direction;
 
+
+/** *************************************************** **
+ * @name Resizing
+ ** *************************************************** **/
+
+/**
+ * Returns an image after resizing it.
+ * @param newSize The new size
+ * @param quality The interpolation quality
+ * @return A resized image.
+ **/
+- (UIImage*)add_imageWithSize:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality;
+
+/**
+ * Returns an image with portrait orientation.
+ * @return An image in portrait orientation.
+ **/
+- (UIImage *)add_imageByFixingOrientation;
+
 @end
 
 #pragma mark - Categories
