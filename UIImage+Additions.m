@@ -444,6 +444,9 @@ static NSString * kUIImageSize = @"kUIImageSize";
 
 + (UIImage*)add_imageWithColor:(UIColor*)color size:(CGSize)size cornerInset:(ADDCornerInset)cornerInset saveInCache:(BOOL)save
 {
+    if (!color)
+        return nil;
+
     NSDictionary *descriptors =  @{kUIImageColors : @[color],
                                    kUIImageSize : [NSValue valueWithCGSize:size],
                                    kUIImageCornerInset : [NSValue valueWithADDCornerInset:cornerInset]};
