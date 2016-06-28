@@ -59,8 +59,6 @@ NSString* NSStringFromADDCornerInset(ADDCornerInset cornerInset)
     return [NSString stringWithFormat:@"ADDCornerInset <topLeft:%f> <topRight:%f> <bottomLeft:%f> <bottomRight:%f>",cornerInset.topLeft, cornerInset.topRight, cornerInset.bottomLeft, cornerInset.bottomRight];
 }
 
-static NSCache * _imageCache = nil;
-
 static NSString * kUIImageName = @"kUIImageName";
 static NSString * kUIImageResizableImage = @"kUIImageResizableImage";
 static NSString * kUIImageColors = @"kUIImageColors";
@@ -402,10 +400,12 @@ static NSString * kUIImageSize = @"kUIImageSize";
 
 + (NSCache*)add_cache
 {
-    if (!_imageCache)
-        _imageCache = [[NSCache alloc] init];
-    
-    return _imageCache;
+    static NSCache *cache = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        cache = [[NSCache alloc] init];
+    });
+    return cache;
 }
 
 + (UIImage*)add_cachedImageWithDescriptors:(NSDictionary*)descriptors
