@@ -635,6 +635,13 @@ static NSString * kUIImageSize = @"kUIImageSize";
     CGRect newRect = CGRectIntegral(CGRectMake(0, 0, newSize.width, newSize.height));
     CGRect transposedRect = CGRectMake(0, 0, newRect.size.height, newRect.size.width);
     CGImageRef imageRef = self.CGImage;
+    CGColorSpaceRef colorSpaceRef = CGImageGetColorSpace(imageRef);
+    
+    // If the color space does not allow output, default to the RGB color space
+    if (!CGColorSpaceSupportsOutput(colorSpaceRef))
+    {
+        colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    }
     
     // Build a context that's the same dimensions as the new size
     CGContextRef bitmap = CGBitmapContextCreate(NULL,
@@ -642,7 +649,7 @@ static NSString * kUIImageSize = @"kUIImageSize";
                                                 newRect.size.height,
                                                 CGImageGetBitsPerComponent(imageRef),
                                                 0,
-                                                CGImageGetColorSpace(imageRef),
+                                                colorSpaceRef,
                                                 CGImageGetBitmapInfo(imageRef));
     
     // Rotate and/or flip the image if required by its orientation
@@ -661,6 +668,10 @@ static NSString * kUIImageSize = @"kUIImageSize";
     // Clean up
     CGContextRelease(bitmap);
     CGImageRelease(newImageRef);
+    if (colorSpaceRef != CGImageGetColorSpace(imageRef))
+    {
+        CGColorSpaceRelease(colorSpaceRef);
+    }
     
     return newImage;
 }
