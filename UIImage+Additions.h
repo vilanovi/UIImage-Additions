@@ -55,7 +55,7 @@ UIKIT_STATIC_INLINE BOOL ADDCornerInsetEqualToCornerInset(ADDCornerInset cornerI
     cornerInset1.bottomRight == cornerInset2.bottomRight;
 }
 
-FOUNDATION_EXTERN NSString* NSStringFromADDCornerInset(ADDCornerInset cornerInset);
+FOUNDATION_EXTERN NSString * _Nonnull NSStringFromADDCornerInset(ADDCornerInset cornerInset);
 
 /**
  * The image tinting styles.
@@ -284,7 +284,7 @@ typedef enum __ADDImageGradientDirection
  * @return An image instance.
  * @discussion Images are cached in dynamic memory.
  **/
-+ (UIImage*)add_imageNamed:(NSString *)name tintColor:(UIColor*)color style:(ADDImageTintStyle)tintStyle;
++ (UIImage* _Nullable)add_imageNamed:(NSString* _Nonnull)name tintColor:(UIColor* _Nonnull)color style:(ADDImageTintStyle)tintStyle;
 
 /**
  * Creates an image object associated with the specified filename and tints it.
@@ -293,7 +293,7 @@ typedef enum __ADDImageGradientDirection
  * @param tintStyle The tint style.
  * @return An image instance.
  **/
-- (UIImage*)add_tintedImageWithColor:(UIColor*)color style:(ADDImageTintStyle)tintStyle;
+- (UIImage* _Nullable)add_tintedImageWithColor:(UIColor* _Nonnull)color style:(ADDImageTintStyle)tintStyle;
 
 /** *************************************************** **
  * @name Rounding corners
@@ -304,7 +304,7 @@ typedef enum __ADDImageGradientDirection
  * @return An image instance.
  * @discussion The image created has the maximum possible corner radius (so if it is squared, it returns a cirled image).
  **/
-- (UIImage*)add_imageWithRoundedBounds;
+- (UIImage* _Nullable)add_imageWithRoundedBounds;
 
 /**
  * Creates and returns an image with a corner radius.
@@ -312,7 +312,7 @@ typedef enum __ADDImageGradientDirection
  * @return An image instance.
  * @discussion This method may return nil if the corner radius is not valid (too big) for the given image.
  **/
-- (UIImage*)add_imageWithCornerRadius:(CGFloat)cornerRadius;
+- (UIImage* _Nullable)add_imageWithCornerRadius:(CGFloat)cornerRadius;
 
 /**
  * Creates and returns an image with a corner inset.
@@ -320,7 +320,7 @@ typedef enum __ADDImageGradientDirection
  * @return An image instance.
  * @discussion This method may return nil if the corner inset is not valid for the given image.
  **/
-- (UIImage*)add_imageWithCornerInset:(ADDCornerInset)cornerInset;
+- (UIImage* _Nullable)add_imageWithCornerInset:(ADDCornerInset)cornerInset;
 
 /**
  * Returns YES is the corner inset is valid for the current image. Otherwise returns NO.
@@ -337,7 +337,7 @@ typedef enum __ADDImageGradientDirection
  * @param image The image to add.
  * @discussion The image being added is centered in the middle of the current image and the returned image has the same size as the current image.
  **/
-- (UIImage*)add_imageAddingImage:(UIImage*)image;
+- (UIImage* _Nullable)add_imageAddingImage:(UIImage* _Nonnull)image;
 
 /**
  * Creates and returns a new image adding to the current image.
@@ -345,7 +345,7 @@ typedef enum __ADDImageGradientDirection
  * @param offset The offset from the top-left corner that indicates where to add the image.
  * @discussion The returned image has the same size as the current image.
  **/
-- (UIImage*)add_imageAddingImage:(UIImage*)image offset:(CGPoint)offset;
+- (UIImage* _Nullable)add_imageAddingImage:(UIImage* _Nonnull)image offset:(CGPoint)offset;
 
 /** *************************************************** **
  * @name Gradient image generation
@@ -358,7 +358,7 @@ typedef enum __ADDImageGradientDirection
  * @param dicrection The gradient direction.
  * @return An image instance.
  **/
-+ (UIImage*)add_imageWithGradient:(NSArray*)colors size:(CGSize)size direction:(ADDImageGradientDirection)direction;
++ (UIImage* _Nullable)add_imageWithGradient:(NSArray* _Nonnull)colors size:(CGSize)size direction:(ADDImageGradientDirection)direction;
 
 /**
  * Generates an gradient resizable image from the given colors.
@@ -367,7 +367,7 @@ typedef enum __ADDImageGradientDirection
  * @param dicrection The gradient direction.
  * @return An image instance.
  **/
-+ (UIImage*)add_resizableImageWithGradient:(NSArray*)colors size:(CGSize)size direction:(ADDImageGradientDirection)direction;
++ (UIImage* _Nullable)add_resizableImageWithGradient:(NSArray* _Nonnull)colors size:(CGSize)size direction:(ADDImageGradientDirection)direction;
 
 
 /** *************************************************** **
@@ -380,13 +380,13 @@ typedef enum __ADDImageGradientDirection
  * @param quality The interpolation quality
  * @return A resized image.
  **/
-- (UIImage*)add_imageWithSize:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality;
+- (UIImage* _Nullable)add_imageWithSize:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality;
 
 /**
  * Returns an image with portrait orientation.
  * @return An image in portrait orientation.
  **/
-- (UIImage *)add_imageByFixingOrientation;
+- (UIImage* _Nullable)add_imageByFixingOrientation;
 
 @end
 
@@ -402,7 +402,7 @@ typedef enum __ADDImageGradientDirection
  * @param cornerInset The corner inset.
  * @return A `NSValue` representation of the corner inset.
  **/
-+ (NSValue*)valueWithADDCornerInset:(ADDCornerInset)cornerInset;
++ (NSValue* _Nonnull)valueWithADDCornerInset:(ADDCornerInset)cornerInset;
 
 /**
  * Retreives the `ADDCornerInset` value.

@@ -41,8 +41,11 @@
 
 - (void)showNextDemoEffect {
     SEL method = NSSelectorFromString(self.nextDemo[self.nextDemoPointer]);
-    [self performSelector:method];
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    [self performSelector:method];
+#pragma clang diagnostic pop  
     self.nextDemoPointer = ++self.nextDemoPointer % self.nextDemo.count;
 }
 
