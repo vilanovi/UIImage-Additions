@@ -288,7 +288,6 @@ typedef enum __ADDImageGradientDirection
 
 /**
  * Creates an image object associated with the specified filename and tints it.
- * @param name The name of the image.
  * @param color The color to tint the image.
  * @param tintStyle The tint style.
  * @return An image instance.
@@ -355,7 +354,7 @@ typedef enum __ADDImageGradientDirection
  * Generates an gradient image from the given colors.
  * @param colors An array of colors. This array must contain at least one color.
  * @param size The size of the returned image.
- * @param dicrection The gradient direction.
+ * @param direction The gradient direction.
  * @return An image instance.
  **/
 + (UIImage* _Nullable)add_imageWithGradient:(NSArray* _Nonnull)colors size:(CGSize)size direction:(ADDImageGradientDirection)direction;
@@ -364,7 +363,7 @@ typedef enum __ADDImageGradientDirection
  * Generates an gradient resizable image from the given colors.
  * @param colors An array of colors. This array must contain at least one color.
  * @param size The minimal size of the returned resizable image.
- * @param dicrection The gradient direction.
+ * @param direction The gradient direction.
  * @return An image instance.
  **/
 + (UIImage* _Nullable)add_resizableImageWithGradient:(NSArray* _Nonnull)colors size:(CGSize)size direction:(ADDImageGradientDirection)direction;
